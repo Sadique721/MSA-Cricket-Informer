@@ -1,0 +1,72 @@
+===================================================================
+                MSA SPORT INFORMER - RELEASE NOTES & GUIDES
+===================================================================
+
+Dear Md Sadique Amin,
+
+The MSA Cricket Informer project has been successfully modernized, refactored, and converted into a general multi-sports platform named:
+{ MSA SPORT INFORMER }
+
+The application now supports Football (Soccer), Cricket, Basketball, and Tennis, with all features organized and structured using modern modular JS and CSS practices.
+
+-------------------------------------------------------------------
+1. MODIFICATIONS MADE
+-------------------------------------------------------------------
+- Modularized Codebase: Extracted all styles and logic from index.html into the 'src/' folder to resolve the code length inconvenience:
+  * index.html: Structurally cleaned, loads modules and CSS.
+  * src/styles.css: Premium dark/light themes, glow states, Swiper, and form element styles.
+  * src/app.js: Initializes components, triggers GSAP/AOS animations, and binds scroll events.
+  * src/three-scene.js: Implements WebGL 3D Sports Ball scene with 360 drag rotation, transitions, lighting, and particles.
+  * src/api.js: Centralized data manager with mock fallbacks for all sports scores, news, and stats.
+  * src/ui.js: Handles stats card tables, dynamic scorecards, commentary ticker updates, news filtering, chat logs, polls, and speech searches.
+- Sports Scope Expansion: Shifted focus from Cricket-only to a full-featured Sports platform. Added Soccer, Cricket, Basketball, and Tennis tabs, score cards, and news filters.
+- Advanced 3D Ball Viewer: Created procedural texture renders for Football, Basketball, Tennis, and Cricket. Handled 360-degree mouse/touch dragging, scale-down swaps, and colorful light bursts on sport change.
+- Multi-Column standings: Dynamically updates the three stats tables based on selection (e.g. Goals, Assists, Clean Sheets for Football vs Test, ODI, T20 stats for Cricket) with corresponding headings.
+- Persisted Dark/Light Mode: Adaptive charts rendering and glass styling colors.
+- Upgraded Documentation: Replaced README.md with comprehensive guides.
+
+-------------------------------------------------------------------
+2. LOCAL RUNNING INSTRUCTIONS
+-------------------------------------------------------------------
+Since the project uses ES6 Modules (import/export), index.html cannot be opened directly via file:// in some browsers due to CORS policies. You MUST run it via a local development server:
+- Option A: If using VS Code, right-click index.html and select "Open with Live Server".
+- Option B: Open terminal in this folder and run:
+  python -m http.server 8000
+  Then access http://localhost:8000 in your browser.
+
+-------------------------------------------------------------------
+3. GITHUB REPOSITORY RENAME INSTRUCTIONS
+-------------------------------------------------------------------
+We have already updated the local git config. To update the repository online:
+1. Go to: https://github.com/Sadique721/MSA-Cricket-Informer
+2. Click on "Settings" (top navbar).
+3. Under "Repository name", change it to: MSA-Sport-Informer
+4. Click the "Rename" button.
+5. In your local terminal, you can verify your remote URL:
+   git remote -v
+   (It will show: https://github.com/Sadique721/MSA-Sport-Informer.git)
+
+* Once you close the IDE, rename the local folder from:
+  "MSA-Cricket-Informer" to "MSA-Sport-Informer"
+
+-------------------------------------------------------------------
+4. NETLIFY SETUP & DEPLOYMENT INSTRUCTIONS
+-------------------------------------------------------------------
+To host the site on Netlify:
+1. Log in to Netlify CLI in your terminal:
+   npx netlify login
+   (This will open a browser window for you to log in)
+2. Initialize deployment link (select Create & configure new site):
+   npx netlify init
+3. Build and deploy to production:
+   npx netlify deploy --prod
+   (This will upload the site and output a live URL)
+4. To change the Netlify subdomain:
+   - Go to your Netlify dashboard.
+   - Click your site -> Site settings -> General -> Site details.
+   - Click "Change site name" and update to: msa-sport-informer
+   - Save.
+
+-------------------------------------------------------------------
+Project engineered with excellence. Ready to be pushed to GitHub!
+===================================================================

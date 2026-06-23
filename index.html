@@ -1,1037 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MSA News & Entertainment | Cricket, Sports & Breaking Buzz</title>
-<meta name="description" content="MSA News & Entertainment – ultimate cricket hub, live scores, AI predictions, viral reels, Md Sadique Amin originals.">
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<style>
-:root {
-  --neon: #00FFB3;
-  --neon2: #FF6B00;
-  --neon3: #7C3AED;
-  --bg: #02040F;
-  --bg2: #060B1A;
-  --glass: rgba(8,15,35,0.7);
-  --border: rgba(0,255,179,0.2);
-  --text: #E8F4F8;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
-body.light{--bg:#F0F4FF;--bg2:#E8EEFF;--glass:rgba(255,255,255,0.7);--border:rgba(0,150,120,0.3);--text:#0A0F1E;}
-
-/* CURSOR - disabled on touch devices */
-@media (pointer: fine) {
-  #cursor{width:16px;height:16px;background:var(--neon);border-radius:50%;position:fixed;pointer-events:none;z-index:99999;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}
-  #cursor-ring{width:44px;height:44px;border:2px solid var(--neon);border-radius:50%;position:fixed;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all 0.1s ease;}
-}
-
-/* PRELOADER */
-#preloader{position:fixed;inset:0;background:var(--bg);z-index:999999;display:flex;align-items:center;justify-content:center;flex-direction:column;}
-.pre-logo{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;background:linear-gradient(135deg,var(--neon),var(--neon2),var(--neon3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-2px;}
-.pre-bar{width:200px;height:3px;background:rgba(255,255,255,0.1);border-radius:99px;margin-top:20px;overflow:hidden;}
-.pre-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:99px;width:0%;transition:width 0.05s linear;}
-.pre-text{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--neon);margin-top:12px;letter-spacing:3px;opacity:0.7;}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:var(--bg2);}
-::-webkit-scrollbar-thumb{background:var(--neon);border-radius:99px;}
-
-/* GLASS CARD */
-.glass{background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:20px;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
-.glass:hover{border-color:rgba(0,255,179,0.5);box-shadow:0 0 40px rgba(0,255,179,0.08),0 30px 60px rgba(0,0,0,0.3);transform:translateY(-4px);}
-
-/* NEON GLOW */
-.glow{text-shadow:0 0 20px var(--neon),0 0 40px rgba(0,255,179,0.3);}
-.glow-border{box-shadow:0 0 0 1px var(--neon),0 0 20px rgba(0,255,179,0.3);}
-
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:1000;transition:all 0.4s;}
-nav.scrolled{background:rgba(2,4,15,0.95);-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);border-bottom:1px solid var(--border);}
-.nav-link{position:relative;font-weight:500;font-size:0.875rem;letter-spacing:0.5px;color:rgba(232,244,248,0.7);transition:color 0.2s;}
-.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--neon);transition:width 0.3s;}
-.nav-link:hover{color:var(--neon);}
-.nav-link:hover::after{width:100%;}
-
-/* TICKER */
-.ticker-wrap{background:linear-gradient(90deg,var(--bg2),rgba(0,255,179,0.05));border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:10px 0;}
-.ticker-content{display:inline-flex;animation:ticker 35s linear infinite;white-space:nowrap;}
-.ticker-content:hover{animation-play-state:paused;}
-@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.live-dot{width:8px;height:8px;background:#FF4444;border-radius:50%;display:inline-block;animation:livepulse 1.2s infinite;}
-@keyframes livepulse{0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,0.7);}50%{box-shadow:0 0 0 6px rgba(255,68,68,0);}}
-
-/* BTN */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:99px;font-weight:600;font-size:0.875rem;letter-spacing:0.5px;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);cursor:pointer;text-decoration:none;}
-.btn-primary{background:linear-gradient(135deg,var(--neon),#009966);color:#02040F;border:none;}
-.btn-primary:hover{transform:scale(1.04);box-shadow:0 0 30px rgba(0,255,179,0.5);}
-.btn-ghost{background:transparent;color:var(--neon);border:1px solid var(--neon);}
-.btn-ghost:hover{background:rgba(0,255,179,0.1);}
-
-/* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;}
-#particles-js{position:absolute;inset:0;z-index:0;}
-#threeCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,179,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,179,0.04) 1px,transparent 1px);background-size:60px 60px;z-index:0;}
-.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,var(--bg) 80%);z-index:1;}
-.hero-content{position:relative;z-index:10;}
-.hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:4px;color:var(--neon);background:rgba(0,255,179,0.08);border:1px solid var(--border);padding:6px 16px;border-radius:99px;display:inline-block;margin-bottom:20px;}
-.hero-title{font-family:'Syne',sans-serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:800;line-height:0.95;letter-spacing:-3px;}
-.hero-title .line{overflow:hidden;}
-.hero-title .word{display:inline-block;transform:translateY(110%);}
-.hero-title span{background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-pill{background:rgba(0,255,179,0.06);border:1px solid var(--border);border-radius:12px;padding:16px 24px;text-align:center;}
-.stat-pill .num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--neon);}
-.stat-pill .lbl{font-size:0.7rem;letter-spacing:2px;opacity:0.5;text-transform:uppercase;}
-
-/* SECTION TITLES */
-.section-label{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:4px;color:var(--neon);opacity:0.7;text-transform:uppercase;margin-bottom:8px;}
-.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-1px;line-height:1.1;}
-
-/* MATCH CARDS */
-.match-card{position:relative;overflow:hidden;}
-.match-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,179,0.05),transparent);pointer-events:none;}
-.match-score{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;}
-.live-badge{background:rgba(255,68,68,0.2);border:1px solid rgba(255,68,68,0.4);color:#FF8888;font-size:0.65rem;letter-spacing:3px;padding:3px 10px;border-radius:99px;font-family:'JetBrains Mono',monospace;}
-
-/* COMMENTARY TIMELINE */
-.commentary-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-.ball-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;font-family:'JetBrains Mono',monospace;}
-.ball-six{background:rgba(0,255,179,0.2);border:1px solid var(--neon);color:var(--neon);}
-.ball-four{background:rgba(255,107,0,0.2);border:1px solid var(--neon2);color:var(--neon2);}
-.ball-dot{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);}
-.ball-wicket{background:rgba(255,68,68,0.2);border:1px solid #FF4444;color:#FF8888;}
-
-/* NEWS */
-.news-card{cursor:pointer;}
-.news-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px 12px 0 0;transition:transform 0.4s;}
-.news-card:hover .news-img{transform:scale(1.03);}
-.category-badge{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;padding:3px 10px;border-radius:99px;}
-
-/* CHARTS */
-.chart-wrap{position:relative;padding:4px;}
-
-/* ICC RANKINGS */
-.rank-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-.rank-num{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600;width:32px;color:var(--neon);opacity:0.5;}
-.rank-num.top{opacity:1;}
-.rank-bar{flex:1;height:4px;background:rgba(255,255,255,0.05);border-radius:99px;overflow:hidden;}
-.rank-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:99px;width:0%;transition:width 1.5s cubic-bezier(0.16,1,0.3,1);}
-
-/* POINTS TABLE */
-#pointsTable{width:100%;border-collapse:collapse;}
-#pointsTable th{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--neon);opacity:0.7;text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
-#pointsTable td{padding:12px;font-size:0.875rem;border-bottom:1px solid rgba(255,255,255,0.04);}
-.pts-cell{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--neon);}
-.pos-bar{display:inline-flex;gap:2px;}
-.pos-dot{width:6px;height:6px;border-radius:50%;}
-
-/* GALLERY */
-.gallery-item{break-inside:avoid;margin-bottom:16px;position:relative;overflow:hidden;border-radius:16px;cursor:pointer;}
-.gallery-item img{width:100%;display:block;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);}
-.gallery-item:hover img{transform:scale(1.06);}
-.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:16px;}
-.gallery-item:hover .gallery-overlay{opacity:1;}
-
-/* CREATOR */
-.creator-avatar{width:120px;height:120px;border-radius:50%;border:3px solid var(--neon);padding:3px;flex-shrink:0;}
-.creator-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
-.social-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;background:rgba(0,255,179,0.07);border:1px solid var(--border);font-size:0.8rem;color:var(--text);transition:all 0.2s;}
-.social-chip:hover{background:rgba(0,255,179,0.15);border-color:var(--neon);}
-
-/* FAN ZONE */
-.poll-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);padding:10px 20px;border-radius:12px;cursor:pointer;font-size:0.875rem;transition:all 0.3s;font-family:'Space Grotesk',sans-serif;color:var(--text);}
-.poll-btn:hover,.poll-btn.active{background:rgba(0,255,179,0.1);border-color:var(--neon);color:var(--neon);}
-.poll-bar-wrap{margin-top:6px;}
-.poll-bar-bg{background:rgba(255,255,255,0.05);border-radius:99px;height:6px;overflow:hidden;margin-top:4px;}
-.poll-bar-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:99px;width:0%;transition:width 1.2s cubic-bezier(0.16,1,0.3,1);}
-
-/* CHATBOT */
-#chatWindow{position:fixed;bottom:88px;left:20px;width:320px;z-index:1000;display:none;flex-direction:column;}
-#chatWindow.show{display:flex;}
-#chatMessages{height:240px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;}
-.chat-msg{padding:10px 14px;border-radius:14px;font-size:0.825rem;max-width:85%;}
-.chat-user{background:rgba(0,255,179,0.1);border:1px solid var(--border);align-self:flex-end;color:var(--neon);}
-.chat-bot{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);align-self:flex-start;}
-
-/* AI PREDICTION */
-.ai-card{background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(0,255,179,0.05));border:1px solid rgba(124,58,237,0.3);border-radius:16px;padding:16px;}
-.ai-typing{display:inline-flex;gap:4px;align-items:center;}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:typing 1.2s infinite;}
-.ai-dot:nth-child(2){animation-delay:0.2s;}
-.ai-dot:nth-child(3){animation-delay:0.4s;}
-@keyframes typing{0%,80%,100%{transform:scale(0.8);opacity:0.3;}40%{transform:scale(1.2);opacity:1;}}
-
-/* MODAL */
-#imgModal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;backdrop-filter:blur(20px);}
-#imgModal.show{display:flex;}
-#imgModal img{max-width:90vw;max-height:90vh;border-radius:16px;}
-
-/* SCROLL TOP */
-#scrollTop{position:fixed;bottom:20px;right:20px;width:44px;height:44px;background:var(--neon);border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:100;box-shadow:0 0 20px rgba(0,255,179,0.4);transition:all 0.3s;}
-#scrollTop.show{display:flex;}
-#scrollTop:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(0,255,179,0.7);}
-
-/* THEME TOGGLE */
-#themeToggle{width:40px;height:22px;background:rgba(255,255,255,0.1);border-radius:99px;border:1px solid var(--border);cursor:pointer;position:relative;transition:background 0.3s;}
-#themeToggle::after{content:'';width:16px;height:16px;background:var(--neon);border-radius:50%;position:absolute;top:2px;left:2px;transition:transform 0.3s;}
-body.light #themeToggle::after{transform:translateX(18px);}
-
-/* SECTION spacing */
-section{padding:80px 0;}
-.container{max-width:1200px;margin:0 auto;padding:0 24px;}
-
-/* VIDEO cards */
-.video-card{border-radius:20px;overflow:hidden;}
-.video-card iframe{border-radius:12px;width:100%;aspect-ratio:16/9;}
-
-/* Footer */
-footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;}
-.footer-link{color:rgba(232,244,248,0.4);font-size:0.875rem;transition:color 0.2s;}
-.footer-link:hover{color:var(--neon);}
-
-/* Anim helpers */
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-18px) rotate(8deg);}}
-@keyframes shimmer{0%{background-position:-1000px 0;}100%{background-position:1000px 0;}}
-.shimmer{background:linear-gradient(90deg,rgba(255,255,255,0.0) 25%,rgba(0,255,179,0.06) 50%,rgba(255,255,255,0.0) 75%);background-size:1000px 100%;animation:shimmer 3s infinite;}
-.float-anim{animation:float 4s ease-in-out infinite;}
-
-/* HORIZONTAL SCROLLER */
-.h-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;scrollbar-color:var(--neon) transparent;}
-.h-scroll::-webkit-scrollbar{height:4px;}
-
-/* SWIPER pagination */
-.swiper-pagination-bullet{background:var(--neon)!important;}
-
-/* Light mode overrides */
-body.light .glass{background:rgba(255,255,255,0.8);}
-body.light .section-title,body.light .hero-title{color:#0A0F1E;}
-body.light #threeCanvas{opacity:0.3;}
-body.light .ticker-wrap{background:rgba(0,0,0,0.05);}
-
-/* Responsive */
-@media(max-width:768px){
-  #mobileMenu{background:rgba(2,4,15,0.98);-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);}
-  .hero-title{letter-spacing:-2px;}
-}
-
-/* News filter active state */
-.news-filter.active{background:rgba(0,255,179,0.1);border-color:var(--neon)!important;color:var(--neon);}
-
-/* Contact */
-.form-input{width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s;}
-.form-input:focus{border-color:var(--neon);}
-.form-input::placeholder{color:rgba(255,255,255,0.25);}
-
-/* Gradient lines */
-.grad-line{height:1px;background:linear-gradient(90deg,transparent,var(--neon),transparent);margin:0;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MSA SPORT INFORMER | Live Scores, News & Predictions</title>
+  <meta name="description" content="MSA Sport Informer – The ultimate sports media platform for real-time scores, news, interactive standings, AI predictions, and 3D animations.">
+  
+  <!-- Tailwind CDN (Used for utility layout classes alongside styles.css) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="src/styles.css">
 </head>
 <body>
 
-<!-- CURSOR (only on non-touch devices) -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
 
-<!-- PRELOADER -->
-<div id="preloader">
-  <div class="pre-logo">MSA</div>
-  <div class="pre-bar"><div class="pre-fill" id="preFill"></div></div>
-  <div class="pre-text" id="preText">INITIALIZING...</div>
-</div>
-
-<!-- IMAGE MODAL -->
-<div id="imgModal" onclick="this.classList.remove('show')">
-  <img id="modalImg" src="" alt="">
-</div>
-
-<!-- NAVBAR -->
-<nav id="navbar">
-  <div class="container" style="display:flex;justify-content:space-between;align-items:center;padding-top:16px;padding-bottom:16px;">
-    <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-      <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--neon),var(--neon2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🏏</div>
-      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.5px;">MSA<span style="color:var(--neon);"> News</span></span>
-    </a>
-    <div class="hidden md:flex" style="gap:32px;align-items:center;">
-      <a href="#live-centre" class="nav-link">Live Hub</a>
-      <a href="#newsSection" class="nav-link">News</a>
-      <a href="#creatorSection" class="nav-link">Creator</a>
-      <a href="#videoOriginals" class="nav-link">MSA Originals</a>
-      <a href="#fanZone" class="nav-link">Fan Zone</a>
-    </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div id="themeToggle" title="Toggle Theme"></div>
-      <button id="voiceBtn" style="width:38px;height:38px;background:rgba(0,255,179,0.1);border:1px solid var(--border);border-radius:50%;color:var(--neon);cursor:pointer;display:flex;align-items:center;justify-content:center;"><i class="fas fa-microphone-alt" style="font-size:14px;"></i></button>
-      <button id="hamburger" class="md:hidden" style="background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;"><i class="fas fa-bars"></i></button>
-    </div>
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="pre-logo">MSA SPORT</div>
+    <div class="pre-bar"><div class="pre-fill" id="preFill"></div></div>
+    <div class="pre-text" id="preText">INITIALIZING ENGINE...</div>
   </div>
-  <div id="mobileMenu" style="display:none;flex-direction:column;gap:0;border-top:1px solid var(--border);">
-    <a href="#" style="padding:14px 24px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:500;">Home</a>
-    <a href="#live-centre" style="padding:14px 24px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:500;">Live Hub</a>
-    <a href="#newsSection" style="padding:14px 24px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:500;">News</a>
-    <a href="#creatorSection" style="padding:14px 24px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:500;">Creator</a>
-    <a href="#videoOriginals" style="padding:14px 24px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:500;">MSA Originals</a>
-    <a href="#fanZone" style="padding:14px 24px;color:var(--text);text-decoration:none;font-weight:500;">Fan Zone</a>
-  </div>
-</nav>
 
-<!-- BREAKING TICKER -->
-<div class="ticker-wrap" style="margin-top:70px;">
-  <div style="display:flex;align-items:center;gap:12px;padding:0 20px;">
-    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--neon);">
-      <span class="live-dot"></span> LIVE
-    </div>
-    <div style="overflow:hidden;flex:1;">
-      <div class="ticker-content" id="tickerContent">
-        <span style="padding-right:80px;">🏏 IND vs AUS &bull; 298/6 (47ov) &bull; India need 42 off 18 balls &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; ENG vs SA LIVE &bull; 189/3 &bull; Stokes 67* &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🔥 IPL 2025: CSK retain Dhoni as mentor &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; MSA BREAKING: Kohli confirms T20 WC 2026 availability &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; PAK vs NZ Today 3:00 PM IST &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Md Sadique Amin collab with Dream11 announced &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</span>
-        <span style="padding-right:80px;">🏏 IND vs AUS &bull; 298/6 (47ov) &bull; India need 42 off 18 balls &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; ENG vs SA LIVE &bull; 189/3 &bull; Stokes 67* &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🔥 IPL 2025: CSK retain Dhoni as mentor &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; MSA BREAKING: Kohli confirms T20 WC 2026 availability &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; PAK vs NZ Today 3:00 PM IST &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; Md Sadique Amin collab with Dream11 announced &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</span>
+  <!-- LIGHTBOX IMAGE MODAL -->
+  <div id="imgModal" onclick="this.classList.remove('show')">
+    <img id="modalImg" src="" alt="Sports Moment Lightbox">
+  </div>
+
+  <!-- HEADER NAVBAR -->
+  <nav id="navbar">
+    <div class="container flex justify-between items-center py-4">
+      <a href="#" class="flex items-center gap-2.5 no-underline">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg" style="background: linear-gradient(135deg, var(--neon), var(--neon2));">🏆</div>
+        <span class="font-sans font-extrabold text-lg tracking-tight">MSA<span class="text-emerald-400"> SPORT INFORMER</span></span>
+      </a>
+      
+      <div class="hidden md:flex gap-8 items-center">
+        <a href="#live-centre" class="nav-link">Live Hub</a>
+        <a href="#newsSection" class="nav-link">Newsroom</a>
+        <a href="#statsSection" class="nav-link">Standings</a>
+        <a href="#creatorSection" class="nav-link">Creator</a>
+        <a href="#videoOriginals" class="nav-link">MSA Originals</a>
+        <a href="#fanZone" class="nav-link">Fan Zone</a>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <div id="themeToggle" title="Toggle Theme"></div>
+        <button id="voiceBtn" class="w-9.5 h-9.5 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-emerald-400 flex items-center justify-center cursor-pointer hover:bg-emerald-400/20 transition-all" title="Voice Search">
+          <i class="fas fa-microphone-alt text-sm"></i>
+        </button>
+        <button id="hamburger" class="md:hidden text-lg cursor-pointer bg-transparent border-none text-white focus:outline-none">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ═══════════ HERO ═══════════ -->
-<section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-vignette"></div>
-  <div id="particles-js" style="position:absolute;inset:0;z-index:0;"></div>
-  <canvas id="threeCanvas"></canvas>
-  <div class="container hero-content" style="padding-top:100px;padding-bottom:60px;">
-    <div class="hero-tag">⚡ CRICKET • VIRAL • CREATOR CULTURE</div>
-    <h1 class="hero-title">
-      <div class="line"><span class="word">MSA News &</span></div>
-      <div class="line"><span class="word" style="background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Entertainment</span></div>
-    </h1>
-    <p style="font-size:1.1rem;color:rgba(232,244,248,0.6);margin-top:20px;max-width:500px;line-height:1.7;">Live scores, AI predictions, viral cricket reels & originals by <strong style="color:var(--neon);">Md Sadique Amin</strong></p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;">
-      <a href="#live-centre" class="btn btn-primary"><i class="fas fa-broadcast-tower"></i> Watch Live</a>
-      <a href="#videoOriginals" class="btn btn-ghost"><i class="fab fa-youtube"></i> MSA Originals</a>
+    
+    <!-- Mobile Navigation Menu -->
+    <div id="mobileMenu" class="hidden flex-col gap-0 border-t border-emerald-400/10">
+      <a href="#live-centre" class="py-3 px-6 border-b border-emerald-400/10 text-white font-medium hover:bg-white/2">Live Hub</a>
+      <a href="#newsSection" class="py-3 px-6 border-b border-emerald-400/10 text-white font-medium hover:bg-white/2">Newsroom</a>
+      <a href="#statsSection" class="py-3 px-6 border-b border-emerald-400/10 text-white font-medium hover:bg-white/2">Standings</a>
+      <a href="#creatorSection" class="py-3 px-6 border-b border-emerald-400/10 text-white font-medium hover:bg-white/2">Creator</a>
+      <a href="#videoOriginals" class="py-3 px-6 border-b border-emerald-400/10 text-white font-medium hover:bg-white/2">MSA Originals</a>
+      <a href="#fanZone" class="py-3 px-6 text-white font-medium hover:bg-white/2">Fan Zone</a>
     </div>
-    <div style="display:flex;gap:16px;margin-top:48px;flex-wrap:wrap;" id="heroStats">
-      <div class="stat-pill"><div class="num" data-count="48000">0</div><div class="lbl">Subscribers</div></div>
-      <div class="stat-pill"><div class="num" data-count="312">0</div><div class="lbl">Videos</div></div>
-      <div class="stat-pill"><div class="num" data-count="2100000">0</div><div class="lbl">Total Views</div></div>
-      <div class="stat-pill" style="display:flex;align-items:center;gap:12px;padding:12px 20px;">
-        <div style="display:flex;gap:8px;font-size:1.3rem;">
-          <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" style="color:rgba(232,244,248,0.4);transition:color 0.2s;" onmouseover="this.style.color='var(--neon)'" onmouseout="this.style.color='rgba(232,244,248,0.4)'"><i class="fab fa-youtube"></i></a>
-          <a href="https://instagram.com/mdsadiqueamin" target="_blank" style="color:rgba(232,244,248,0.4);transition:color 0.2s;" onmouseover="this.style.color='var(--neon)'" onmouseout="this.style.color='rgba(232,244,248,0.4)'"><i class="fab fa-instagram"></i></a>
-          <a href="https://linkedin.com/in/mdsadiqueamin" target="_blank" style="color:rgba(232,244,248,0.4);transition:color 0.2s;" onmouseover="this.style.color='var(--neon)'" onmouseout="this.style.color='rgba(232,244,248,0.4)'"><i class="fab fa-linkedin"></i></a>
+  </nav>
+
+  <!-- BREAKING NEWS TICKER -->
+  <div class="ticker-wrap mt-[74px]">
+    <div class="flex items-center gap-3 px-6">
+      <div class="flex items-center gap-1.5 flex-shrink-0 font-mono text-[10px] tracking-wider text-emerald-400 font-bold">
+        <span class="live-dot"></span> LIVE UPDATES
+      </div>
+      <div class="overflow-hidden flex-1">
+        <div class="ticker-content" id="tickerContent">
+          <span class="pr-20">⚽ UCL: Real Madrid vs Barcelona 2-1 (82') &bull; Vinicius Jr. 82' &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🏏 IND vs AUS Live &bull; India needs 21 runs off 15 balls &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🏀 NBA Finals: Lakers lead Celtics 104-101 (Q4) &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🎾 Wimbledon: Alcaraz vs Djokovic 6-4, 3-6, 4-3 &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; ⚡ MSA EXCLUSIVE: Md Sadique Amin announces collaboration with Dream11 Analytics &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</span>
+          <span class="pr-20">⚽ UCL: Real Madrid vs Barcelona 2-1 (82') &bull; Vinicius Jr. 82' &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🏏 IND vs AUS Live &bull; India needs 21 runs off 15 balls &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🏀 NBA Finals: Lakers lead Celtics 104-101 (Q4) &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 🎾 Wimbledon: Alcaraz vs Djokovic 6-4, 3-6, 4-3 &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; ⚡ MSA EXCLUSIVE: Md Sadique Amin announces collaboration with Dream11 Analytics &nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;</span>
         </div>
       </div>
     </div>
   </div>
-  <div style="position:absolute;right:8%;bottom:15%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,179,0.12),transparent 70%);z-index:2;animation:float 5s ease-in-out infinite;"></div>
-</section>
 
-<!-- ═══════════ LIVE MATCH CENTRE ═══════════ -->
-<section id="live-centre">
-  <div class="container">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px;" data-aos="fade-up">
-      <span class="live-dot"></span>
-      <div>
-        <div class="section-label">REAL-TIME</div>
-        <h2 class="section-title">Live Match Centre</h2>
+  <!-- ═══════════ HERO SECTION ═══════════ -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-vignette"></div>
+    <div id="particles-js"></div>
+    <canvas id="threeCanvas"></canvas>
+    
+    <div class="container hero-content py-24">
+      <div class="hero-tag">⚡ SPORTS • ANALYTICS • DIGITAL CREATIVE</div>
+      <h1 class="hero-title">
+        <div class="line"><span class="word">MSA Sport</span></div>
+        <div class="line"><span class="word">Informer</span></div>
+      </h1>
+      <p class="text-sm md:text-base text-gray-400 max-w-[500px] leading-relaxed mt-6">
+        Real-time scoreboards, live metrics, expert charts, and AI-predicted analytics by creator <strong class="text-emerald-400 font-bold">Md Sadique Amin</strong>.
+      </p>
+      
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="#live-centre" class="btn btn-primary"><i class="fas fa-broadcast-tower"></i> Live Scoreboards</a>
+        <a href="#videoOriginals" class="btn btn-ghost"><i class="fab fa-youtube"></i> Watch Originals</a>
       </div>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4" style="gap:16px;" id="matchCards" data-aos="fade-up" data-aos-delay="100"></div>
-    <div class="grid md:grid-cols-2" style="gap:20px;margin-top:24px;" data-aos="fade-up" data-aos-delay="150">
-      <div class="glass" style="padding:20px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <div style="font-weight:700;display:flex;align-items:center;gap:8px;"><i class="fas fa-wave-square" style="color:var(--neon);"></i> Ball-by-Ball</div>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--neon);opacity:0.6;letter-spacing:2px;">LIVE FEED</span>
-        </div>
-        <div id="commentaryBox" style="display:flex;flex-direction:column;gap:0;max-height:300px;overflow-y:auto;"></div>
-      </div>
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:16px;"><i class="fas fa-table" style="color:var(--neon);"></i> Today's Scorecard</div>
-        <div id="scorecardBox"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="grad-line container" style="max-width:100%;"></div>
-
-<!-- ═══════════ NEWS ═══════════ -->
-<section id="newsSection">
-  <div class="container">
-    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:32px;" data-aos="fade-up">
-      <div>
-        <div class="section-label">BREAKING NOW</div>
-        <h2 class="section-title">Sports Newsroom</h2>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="news-filter active" data-cat="all" style="padding:8px 18px;border-radius:99px;border:1px solid var(--border);font-size:0.8rem;cursor:pointer;background:rgba(0,255,179,0.1);border-color:var(--neon);color:var(--neon);font-family:'Space Grotesk',sans-serif;">All</button>
-        <button class="news-filter" data-cat="IPL" style="padding:8px 18px;border-radius:99px;border:1px solid var(--border);font-size:0.8rem;cursor:pointer;background:transparent;color:var(--text);font-family:'Space Grotesk',sans-serif;">IPL 2025</button>
-        <button class="news-filter" data-cat="International" style="padding:8px 18px;border-radius:99px;border:1px solid var(--border);font-size:0.8rem;cursor:pointer;background:transparent;color:var(--text);font-family:'Space Grotesk',sans-serif;">International</button>
-        <button class="news-filter" data-cat="Tech" style="padding:8px 18px;border-radius:99px;border:1px solid var(--border);font-size:0.8rem;cursor:pointer;background:transparent;color:var(--text);font-family:'Space Grotesk',sans-serif;">Tech</button>
-      </div>
-    </div>
-    <div class="grid md:grid-cols-3" style="gap:20px;" id="newsGrid" data-aos="fade-up" data-aos-delay="100"></div>
-  </div>
-</section>
-
-<!-- ═══════════ STATS & RANKINGS ═══════════ -->
-<section style="background:var(--bg2);padding:80px 0;">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:48px;" data-aos="fade-up">
-      <div class="section-label" style="text-align:center;">DATA & ANALYTICS</div>
-      <h2 class="section-title">Elite Stats & ICC Rankings</h2>
-    </div>
-    <div class="grid md:grid-cols-2" style="gap:24px;margin-bottom:32px;" data-aos="fade-up" data-aos-delay="100">
-      <div class="glass" style="padding:24px;"><canvas id="runsChart"></canvas></div>
-      <div class="glass" style="padding:24px;"><canvas id="wicketsChart"></canvas></div>
-    </div>
-    <div class="grid md:grid-cols-3" style="gap:20px;margin-bottom:32px;" data-aos="fade-up" data-aos-delay="150">
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="fas fa-cricket-bat-ball" style="color:var(--neon);"></i> Test Batting</div>
-        <div id="testRankings"></div>
-      </div>
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="fas fa-baseball" style="color:var(--neon2);"></i> ODI Bowling</div>
-        <div id="odiRankings"></div>
-      </div>
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="fas fa-star" style="color:var(--neon3);"></i> T20 Allrounders</div>
-        <div id="t20Rankings"></div>
-      </div>
-    </div>
-    <div class="glass" style="padding:24px;" data-aos="fade-up" data-aos-delay="200">
-      <div style="font-weight:700;font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><i class="fas fa-trophy" style="color:var(--neon);"></i> IPL 2025 Points Table</div>
-      <div style="overflow-x:auto;"><table id="pointsTable"><thead><tr><th>#</th><th>TEAM</th><th>PLD</th><th>WON</th><th>LOST</th><th>NRR</th><th>PTS</th><th>FORM</th></tr></thead><tbody id="pointsTableBody"></tbody></table></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ CREATOR SECTION ═══════════ -->
-<section id="creatorSection">
-  <div class="container">
-    <div class="glass shimmer" style="padding:40px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;" data-aos="fade-up">
-      <div class="creator-avatar">
-        <img src="https://ui-avatars.com/api/?background=00FFB3&color=02040F&bold=true&size=200&name=Md+Sadique" alt="Md Sadique Amin">
-      </div>
-      <div>
-        <div class="section-label">CREATOR & ANALYST</div>
-        <h2 style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px;">Md Sadique Amin</h2>
-        <p style="color:var(--neon);font-family:'JetBrains Mono',monospace;font-size:0.85rem;margin-bottom:16px;">@mdsadiqueamin721 · Software Engineer · Cricket Analyst · Digital Creator</p>
-        <p style="color:rgba(232,244,248,0.6);line-height:1.7;font-size:0.9rem;margin-bottom:20px;">Creator of MSA News & Entertainment — delivering electrifying cricket breakdowns, tech innovation, and viral sports reels. Featured in top cricket podcasts & code for sports. Connect for collaborations! 🏏🔥</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
-          <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="social-chip"><i class="fab fa-youtube" style="color:#FF4444;"></i> 48K+ Subscribers</a>
-          <a href="#" class="social-chip"><i class="fas fa-code" style="color:var(--neon);"></i> MERN · AI</a>
-          <a href="#" class="social-chip"><i class="fas fa-trophy" style="color:gold;"></i> Cricket Strategist</a>
-          <a href="https://instagram.com/mdsadiqueamin" target="_blank" class="social-chip"><i class="fab fa-instagram" style="color:#E1306C;"></i> Instagram</a>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="btn btn-primary" style="font-size:0.8rem;padding:10px 22px;"><i class="fab fa-youtube"></i> Subscribe</a>
-          <a href="#contact" class="btn btn-ghost" style="font-size:0.8rem;padding:10px 22px;"><i class="fas fa-envelope"></i> Contact</a>
+      
+      <div class="flex gap-4 mt-12 flex-wrap" id="heroStats">
+        <div class="stat-pill"><div class="num" data-count="48000">0</div><div class="lbl">Subscribers</div></div>
+        <div class="stat-pill"><div class="num" data-count="312">0</div><div class="lbl">Videos</div></div>
+        <div class="stat-pill"><div class="num" data-count="2100000">0</div><div class="lbl">Reel Views</div></div>
+        <div class="stat-pill flex items-center gap-3 px-6 py-4">
+          <div class="flex gap-4 text-lg">
+            <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="text-gray-500 hover:text-emerald-400 transition-colors"><i class="fab fa-youtube"></i></a>
+            <a href="https://instagram.com/mdsadiqueamin" target="_blank" class="text-gray-500 hover:text-emerald-400 transition-colors"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/in/mdsadiqueamin" target="_blank" class="text-gray-500 hover:text-emerald-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+    
+    <!-- 3D Sports Sphere controls -->
+    <div class="viewer-controls">
+      <button class="viewer-btn active sport-selector" data-sport="football">⚽ Soccer</button>
+      <button class="viewer-btn sport-selector" data-sport="cricket">🏏 Cricket</button>
+      <button class="viewer-btn sport-selector" data-sport="basketball">🏀 Basketball</button>
+      <button class="viewer-btn sport-selector" data-sport="tennis">🎾 Tennis</button>
+    </div>
+  </section>
 
-<!-- ═══════════ VIDEO ORIGINALS ═══════════ -->
-<section id="videoOriginals" style="background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:40px;" data-aos="fade-up">
-      <div class="section-label" style="text-align:center;">EXCLUSIVE CONTENT</div>
-      <h2 class="section-title">🎬 MSA Originals</h2>
-      <p style="color:rgba(232,244,248,0.5);margin-top:8px;">Cricket analysis, match vlogs & reels from Md Sadique Amin</p>
-    </div>
-    <div class="grid md:grid-cols-2" style="gap:20px;margin-bottom:32px;" data-aos="fade-up" data-aos-delay="100">
-      <div class="glass video-card" style="padding:16px;">
-        <iframe class="" src="https://www.youtube.com/embed/hhRb7cPJN6E?si=example" title="MSA Cricket Show" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <p style="margin-top:12px;font-weight:600;font-size:0.9rem;">🎙️ "IPL Mega Auction Analysis" — MSA Show</p>
-        <p style="color:rgba(232,244,248,0.4);font-size:0.8rem;margin-top:4px;">147K views · 3 months ago</p>
-      </div>
-      <div class="glass video-card" style="padding:16px;">
-        <iframe src="https://www.youtube.com/embed/4oYrtMGLCr4?si=featured" title="Cricket Tech by MSA" frameborder="0" allowfullscreen></iframe>
-        <p style="margin-top:12px;font-weight:600;font-size:0.9rem;">📊 AI in Cricket: MSA Explains</p>
-        <p style="color:rgba(232,244,248,0.4);font-size:0.8rem;margin-top:4px;">89K views · 5 months ago</p>
-      </div>
-    </div>
-    <div class="swiper mySwiper" data-aos="fade-up" data-aos-delay="150">
-      <div class="swiper-wrapper" id="videoSwiperWrapper"></div>
-      <div class="swiper-pagination" style="margin-top:16px;"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ GALLERY ═══════════ -->
-<section id="gallery">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:40px;" data-aos="fade-up">
-      <div class="section-label" style="text-align:center;">MOMENTS</div>
-      <h2 class="section-title">📸 Cricket Reels & Moments</h2>
-    </div>
-    <div style="columns:2;gap:16px;" id="galleryGrid" class="md:columns-3"></div>
-  </div>
-</section>
-
-<!-- ═══════════ FAN ZONE ═══════════ -->
-<section id="fanZone" style="background:var(--bg2);">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:40px;" data-aos="fade-up">
-      <div class="section-label" style="text-align:center;">INTERACTIVE</div>
-      <h2 class="section-title">🔥 MSA Fan Zone</h2>
-    </div>
-    <div class="grid md:grid-cols-3" style="gap:20px;" data-aos="fade-up" data-aos-delay="100">
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><i class="fas fa-comments" style="color:var(--neon);"></i> Fan Chat</div>
-        <div id="fanComments" style="height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:10px;"></div>
-        <input id="commentInput" placeholder="Cheer your team..." class="form-input" style="margin-bottom:8px;">
-        <button id="postComment" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;font-size:0.8rem;">Post 🏏</button>
-      </div>
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><i class="fas fa-poll" style="color:var(--neon2);"></i> World Cup 2027 Winner?</div>
-        <div id="pollOptions" style="display:flex;flex-direction:column;gap:8px;"></div>
-        <div id="pollResult" style="margin-top:12px;"></div>
-      </div>
-      <div class="glass" style="padding:20px;">
-        <div style="font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><i class="fas fa-robot" style="color:var(--neon3);"></i> AI Live Predictor</div>
-        <div class="ai-card" id="aiPrediction">
-          <div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+  <!-- ═══════════ LIVE MATCH HUB ═══════════ -->
+  <section id="live-centre">
+    <div class="container">
+      <div class="flex items-center gap-3 mb-10" data-aos="fade-up">
+        <span class="live-dot"></span>
+        <div>
+          <div class="section-label">REAL-TIME DATA</div>
+          <h2 class="section-title">Live Match Hub</h2>
         </div>
-        <button id="refreshPrediction" class="btn btn-ghost" style="margin-top:12px;width:100%;justify-content:center;font-size:0.8rem;padding:8px;">🔄 New Prediction</button>
-        <div style="margin-top:16px;text-align:center;">
-          <div style="font-size:0.75rem;color:rgba(232,244,248,0.4);margin-bottom:6px;">VOICE SEARCH</div>
-          <span id="voiceStatus" style="font-size:0.8rem;color:var(--neon);font-family:'JetBrains Mono',monospace;">click mic → speak topic</span>
+      </div>
+      
+      <!-- Interactive Sport Tabs inside Dashboard -->
+      <div class="flex gap-2.5 mb-8 overflow-x-auto pb-2" data-aos="fade-up">
+        <button class="sport-selector active flex items-center gap-2 border border-white/10 text-gray-400 px-5 py-2.5 rounded-full font-medium hover:border-emerald-400 hover:text-emerald-400 transition-all cursor-pointer" data-sport="football">⚽ Soccer</button>
+        <button class="sport-selector flex items-center gap-2 border border-white/10 text-gray-400 px-5 py-2.5 rounded-full font-medium hover:border-emerald-400 hover:text-emerald-400 transition-all cursor-pointer" data-sport="cricket">🏏 Cricket</button>
+        <button class="sport-selector flex items-center gap-2 border border-white/10 text-gray-400 px-5 py-2.5 rounded-full font-medium hover:border-emerald-400 hover:text-emerald-400 transition-all cursor-pointer" data-sport="basketball">🏀 Basketball</button>
+        <button class="sport-selector flex items-center gap-2 border border-white/10 text-gray-400 px-5 py-2.5 rounded-full font-medium hover:border-emerald-400 hover:text-emerald-400 transition-all cursor-pointer" data-sport="tennis">🎾 Tennis</button>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="matchCards" data-aos="fade-up" data-aos-delay="100"></div>
+      
+      <div class="grid md:grid-cols-2 gap-6 mt-8" data-aos="fade-up" data-aos-delay="150">
+        <div class="glass p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div class="font-bold text-sm tracking-wider flex items-center gap-2"><i class="fas fa-wave-square text-emerald-400"></i> LIVE Ticker Stream</div>
+            <span class="font-mono text-[10px] text-emerald-400/80 tracking-widest uppercase">BALL-BY-BALL</span>
+          </div>
+          <div id="commentaryBox" class="flex flex-col gap-1 max-h-[300px] overflow-y-auto"></div>
+        </div>
+        
+        <div class="glass p-6">
+          <div class="font-bold text-sm tracking-wider flex items-center gap-2 mb-6"><i class="fas fa-table text-emerald-400"></i> Match Statistics Scorecard</div>
+          <div id="scorecardBox"></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════ CONTACT ═══════════ -->
-<section id="contact">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:40px;" data-aos="fade-up">
-      <div class="section-label" style="text-align:center;">GET IN TOUCH</div>
-      <h2 class="section-title">Message the Creator</h2>
-    </div>
-    <div class="grid md:grid-cols-2" style="gap:24px;" data-aos="fade-up" data-aos-delay="100">
-      <div class="glass" style="padding:32px;">
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <input type="text" placeholder="Your Name" class="form-input">
-          <input type="email" placeholder="Email Address" class="form-input">
-          <input type="text" placeholder="Subject (Cricket / Collab / Tech)" class="form-input">
-          <textarea placeholder="Your message..." class="form-input" style="min-height:120px;resize:vertical;" rows="4"></textarea>
-          <button id="sendMsg" class="btn btn-primary" style="justify-content:center;"><i class="fas fa-paper-plane"></i> Send Message</button>
+  <div class="grad-line container"></div>
+
+  <!-- ═══════════ NEWSROOM SECTION ═══════════ -->
+  <section id="newsSection">
+    <div class="container">
+      <div class="flex flex-wrap items-end justify-between gap-6 mb-10" data-aos="fade-up">
+        <div>
+          <div class="section-label">TRENDING SPORTS NEWS</div>
+          <h2 class="section-title">Sports Newsroom</h2>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button class="news-filter active" data-cat="all">All</button>
+          <button class="news-filter" data-cat="Football">Football</button>
+          <button class="news-filter" data-cat="Cricket">Cricket</button>
+          <button class="news-filter" data-cat="Basketball">Basketball</button>
+          <button class="news-filter" data-cat="Tennis">Tennis</button>
         </div>
       </div>
-      <div class="glass" style="padding:32px;display:flex;flex-direction:column;gap:20px;">
-        <iframe style="border-radius:16px;width:100%;height:200px;border:none;" loading="lazy" src="https://maps.google.com/maps?q=Ahmedabad,Gujarat&z=12&output=embed"></iframe>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;align-items:center;gap:10px;color:rgba(232,244,248,0.7);font-size:0.875rem;"><i class="fas fa-envelope" style="color:var(--neon);width:16px;"></i> mdsadiqueamin721786@gmail.com</div>
-          <div style="display:flex;align-items:center;gap:10px;color:rgba(232,244,248,0.7);font-size:0.875rem;"><i class="fab fa-youtube" style="color:#FF4444;width:16px;"></i> youtube.com/@mdsadiqueamin721</div>
-          <div style="display:flex;align-items:center;gap:10px;color:rgba(232,244,248,0.7);font-size:0.875rem;"><i class="fas fa-map-marker-alt" style="color:var(--neon2);width:16px;"></i> Ahmedabad, Gujarat, India</div>
+      <div class="grid md:grid-cols-3 gap-6" id="newsGrid" data-aos="fade-up" data-aos-delay="100"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ STATS & RANKINGS ═══════════ -->
+  <section id="statsSection" class="bg-[#060B1A]/80 border-t border-b border-emerald-400/10">
+    <div class="container">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <div class="section-label">DATA STANDINGS</div>
+        <h2 class="section-title">Leaderboards & Standings</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8 mb-10" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass p-6"><canvas id="runsChart"></canvas></div>
+        <div class="glass p-6"><canvas id="wicketsChart"></canvas></div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6 mb-8" data-aos="fade-up" data-aos-delay="150">
+        <div class="glass p-5">
+          <div id="rankHeader1" class="font-bold text-sm mb-4 flex items-center gap-2"></div>
+          <div id="testRankings"></div>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="btn btn-primary" style="font-size:0.8rem;padding:8px 18px;"><i class="fab fa-youtube"></i></a>
-          <a href="https://instagram.com/mdsadiqueamin" target="_blank" class="btn btn-ghost" style="font-size:0.8rem;padding:8px 18px;"><i class="fab fa-instagram"></i></a>
-          <a href="https://linkedin.com/in/mdsadiqueamin" target="_blank" class="btn btn-ghost" style="font-size:0.8rem;padding:8px 18px;"><i class="fab fa-linkedin"></i></a>
-          <a href="https://facebook.com/msa.entertainment" target="_blank" class="btn btn-ghost" style="font-size:0.8rem;padding:8px 18px;"><i class="fab fa-facebook"></i></a>
+        <div class="glass p-5">
+          <div id="rankHeader2" class="font-bold text-sm mb-4 flex items-center gap-2"></div>
+          <div id="odiRankings"></div>
+        </div>
+        <div class="glass p-5">
+          <div id="rankHeader3" class="font-bold text-sm mb-4 flex items-center gap-2"></div>
+          <div id="t20Rankings"></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container" style="text-align:center;">
-    <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px;">MSA<span style="color:var(--neon);"> News & Entertainment</span></div>
-    <p style="color:rgba(232,244,248,0.3);font-size:0.8rem;margin-bottom:16px;">Engineered by Md Sadique Amin · Cricket · Code · Creativity · © 2025</p>
-    <div style="display:flex;justify-content:center;gap:20px;">
-      <a href="#" class="footer-link">Privacy</a>
-      <a href="#" class="footer-link">Terms</a>
-      <a href="#" class="footer-link">About</a>
-      <a href="#" class="footer-link">Sitemap</a>
-    </div>
-  </div>
-</footer>
-
-<!-- FLOATING BUTTONS -->
-<div id="scrollTop"><i class="fas fa-arrow-up" style="color:#02040F;font-size:14px;"></i></div>
-
-<!-- CHATBOT -->
-<div id="chatbotBtn" style="position:fixed;bottom:20px;left:20px;width:52px;height:52px;background:linear-gradient(135deg,var(--neon),#009966);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1001;box-shadow:0 0 20px rgba(0,255,179,0.4);transition:all 0.3s;">
-  <i class="fas fa-robot" style="color:#02040F;font-size:20px;"></i>
-</div>
-<div id="chatWindow" class="glass">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);">
-    <div style="font-weight:700;font-size:0.875rem;display:flex;align-items:center;gap:8px;"><span class="live-dot"></span> MSA Cricket Bot</div>
-    <button onclick="document.getElementById('chatWindow').classList.remove('show')" style="background:none;border:none;color:rgba(232,244,248,0.4);cursor:pointer;font-size:16px;">✕</button>
-  </div>
-  <div id="chatMessages"></div>
-  <div style="padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;">
-    <input id="chatInput" placeholder="Ask about cricket..." class="form-input" style="flex:1;padding:8px 12px;font-size:0.8rem;">
-    <button id="sendChat" class="btn btn-primary" style="padding:8px 14px;font-size:0.8rem;border-radius:10px;"><i class="fas fa-paper-plane"></i></button>
-  </div>
-</div>
-
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<script>
-/* ══════ PRELOADER ══════ */
-const fill = document.getElementById('preFill');
-const preText = document.getElementById('preText');
-const steps = ['LOADING ASSETS...','CONNECTING LIVE FEEDS...','SYNCING SCORES...','READY!'];
-let pct = 0, si = 0;
-const pInt = setInterval(() => {
-  pct += Math.random() * 8 + 3;
-  if (pct >= 100) { pct = 100; clearInterval(pInt); }
-  fill.style.width = pct + '%';
-  if (si < steps.length - 1 && pct > (si+1)*25) { si++; preText.textContent = steps[si]; }
-  if (pct === 100) {
-    setTimeout(() => {
-      const preloader = document.getElementById('preloader');
-      if(preloader) { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 600); }
-    }, 400);
-  }
-}, 80);
-
-/* ══════ CURSOR (only on fine pointer) ══════ */
-if (window.matchMedia('(pointer: fine)').matches) {
-  const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
-  if(cur && ring) {
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
-    function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
-    animRing();
-    document.querySelectorAll('a,button,.glass-card,.gallery-item').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.style.width='24px'; cur.style.height='24px'; ring.style.width='60px'; ring.style.height='60px'; });
-      el.addEventListener('mouseleave', () => { cur.style.width='16px'; cur.style.height='16px'; ring.style.width='44px'; ring.style.height='44px'; });
-    });
-  }
-}
-
-/* ══════ NAV SCROLL ══════ */
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
-  if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 80);
-  const scrollTop = document.getElementById('scrollTop');
-  if(scrollTop) scrollTop.classList.toggle('show', window.scrollY > 400);
-});
-const scrollBtn = document.getElementById('scrollTop');
-if(scrollBtn) scrollBtn.onclick = () => window.scrollTo({top:0,behavior:'smooth'});
-const hamburger = document.getElementById('hamburger');
-if(hamburger) hamburger.onclick = () => {
-  const menu = document.getElementById('mobileMenu');
-  if(menu) menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-};
-
-/* ══════ THEME ══════ */
-const themeToggle = document.getElementById('themeToggle');
-if(themeToggle) {
-  themeToggle.onclick = () => {
-    document.body.classList.toggle('light');
-    localStorage.setItem('msa-theme', document.body.classList.contains('light') ? 'light' : 'dark');
-  };
-  if (localStorage.getItem('msa-theme') === 'light') document.body.classList.add('light');
-}
-
-/* ══════ PARTICLES.JS SAFE INIT ══════ */
-window.addEventListener('load', () => {
-  if (typeof particlesJS !== 'undefined' && document.getElementById('particles-js')) {
-    particlesJS('particles-js', {
-      particles: { number:{value:60}, color:{value:'#00FFB3'}, shape:{type:'circle'}, opacity:{value:0.3,random:true}, size:{value:2,random:true}, line_linked:{enable:true,distance:130,color:'#00FFB3',opacity:0.08,width:1}, move:{enable:true,speed:0.8} },
-      interactivity: { events:{onhover:{enable:true,mode:'grab'},onclick:{enable:true,mode:'push'}}, modes:{grab:{distance:150,line_linked:{opacity:0.3}}} }
-    });
-  }
-});
-
-/* ══════ THREE.JS WITH ERROR HANDLING ══════ */
-(function initThree() {
-  const canvasEl = document.getElementById('threeCanvas');
-  if (!canvasEl) return;
-  import('https://unpkg.com/three@0.128.0/build/three.module.js').then(THREE => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 8);
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    const geo = new THREE.SphereGeometry(1.4, 64, 64);
-    const mat = new THREE.MeshStandardMaterial({ color: 0x00FFB3, emissive: 0x003322, roughness: 0.3, metalness: 0.6 });
-    const ball = new THREE.Mesh(geo, mat);
-    ball.position.set(3.5, 0, 0);
-    scene.add(ball);
-    // Seam curve
-    const seamCurve = new THREE.EllipseCurve(0, 0, 1.42, 0.5, 0, Math.PI*2, false, 0);
-    const seamPts = seamCurve.getPoints(80);
-    const seamGeo = new THREE.BufferGeometry().setFromPoints(seamPts);
-    const seamMat = new THREE.LineBasicMaterial({ color: 0xFF6B00 });
-    const seam = new THREE.Line(seamGeo, seamMat);
-    ball.add(seam);
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambient);
-    const dLight = new THREE.DirectionalLight(0x00FFB3, 1.5);
-    dLight.position.set(4, 6, 4); scene.add(dLight);
-    const pLight = new THREE.PointLight(0xFF6B00, 1, 20);
-    pLight.position.set(-4, -2, 2); scene.add(pLight);
-    const ringGeo = new THREE.TorusGeometry(2.2, 0.015, 12, 100);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x00FFB3, transparent: true, opacity: 0.15 });
-    const orbitRing = new THREE.Mesh(ringGeo, ringMat);
-    orbitRing.rotation.x = Math.PI/3;
-    ball.add(orbitRing);
-    window.addEventListener('resize', () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth/window.innerHeight;
-      camera.updateProjectionMatrix();
-    });
-    let t = 0;
-    function animate() {
-      requestAnimationFrame(animate);
-      t += 0.012;
-      ball.rotation.y += 0.006;
-      ball.rotation.z += 0.004;
-      ball.position.y = Math.sin(t) * 0.5;
-      orbitRing.rotation.z += 0.005;
-      renderer.render(scene, camera);
-    }
-    animate();
-  }).catch(e => console.warn('Three.js not loaded, 3D effects disabled', e));
-})();
-
-/* ══════ GSAP & AOS ══════ */
-window.addEventListener('load', () => {
-  AOS.init({ duration: 700, once: true, offset: 80 });
-  gsap.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.hero-title .word').forEach((word, i) => {
-    gsap.to(word, { y: '0%', duration: 1.2, delay: 0.8 + i*0.15, ease: 'power4.out' });
-  });
-  document.querySelectorAll('[data-count]').forEach(el => {
-    const end = parseInt(el.getAttribute('data-count'));
-    let start = 0;
-    const inc = end / 60;
-    const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+'M+' : n >= 1000 ? (n/1000).toFixed(0)+'K+' : n;
-    const timer = setInterval(() => {
-      start = Math.min(start + inc, end);
-      el.textContent = fmt(Math.floor(start));
-      if (start >= end) clearInterval(timer);
-    }, 30);
-  });
-  gsap.utils.toArray('.glass').forEach((card, i) => {
-    gsap.from(card, {
-      scrollTrigger: { trigger: card, start: 'top 88%' },
-      y: 30, opacity: 0, duration: 0.7, delay: (i%3)*0.08, ease: 'power3.out'
-    });
-  });
-});
-
-/* ══════ MOCK DATA ══════ */
-const matchData = [
-  { name:'IND vs AUS', score:'298/6', overs:'47.3', status:'LIVE', team1:'India', team2:'Australia', team1score:'298/6', team2score:'318' },
-  { name:'ENG vs SA', score:'189/3', overs:'32.1', status:'LIVE', team1:'England', team2:'S.Africa', team1score:'189/3', team2score:'–' },
-  { name:'CSK vs MI', score:'210/4', overs:'20', status:'IPL 2025', team1:'CSK', team2:'MI', team1score:'210/4', team2score:'198/6' },
-  { name:'PAK vs NZ', score:'Yet to start', overs:'–', status:'Today 3PM', team1:'Pakistan', team2:'New Zealand', team1score:'–', team2score:'–' }
-];
-const newsData = [
-  { title:'MSA Exclusive: Kohli opens on T20 WC ambitions', desc:'Virat confirms availability for 2026 T20 World Cup, sets eyes on final glory.', cat:'International', img:'https://picsum.photos/id/102/600/340', time:'2h ago', src:'MSA Insider' },
-  { title:'IPL 2025: Smart Replay AI system launched', desc:'Tata IPL 2025 introduces AI-powered umpire review tech replacing traditional DRS.', cat:'IPL', img:'https://picsum.photos/id/1062/600/340', time:'4h ago', src:'CricketTech' },
-  { title:'Md Sadique Amin joins Dream11 as sports tech analyst', desc:'MSA News creator Md Sadique Amin officially collaborates with Dream11 for AI analytics.', cat:'Tech', img:'https://picsum.photos/id/26/600/340', time:'6h ago', src:'MSA' },
-  { title:'Bumrah breaks ODI record with 8 wickets vs SA', desc:'Jasprit Bumrah claims a historic 8-wicket haul in the 2nd ODI against South Africa.', cat:'International', img:'https://picsum.photos/id/160/600/340', time:'1d ago', src:'ESPNCricinfo' },
-  { title:'IPL 2025 Auction: 3 franchises battle for Gill', desc:'CSK, RCB and MI locked in intense bidding war for Shubman Gill, bid crosses ₹22 Cr.', cat:'IPL', img:'https://picsum.photos/id/65/600/340', time:'1d ago', src:'BCCI' },
-  { title:'AI pitch prediction now part of MSA Cricket App', desc:'New MSA-built model predicts pitch behavior using historical data and weather patterns.', cat:'Tech', img:'https://picsum.photos/id/96/600/340', time:'2d ago', src:'MSA Tech' }
-];
-const pointsData = [
-  { team:'CSK', played:7, won:6, lost:1, nrr:'+1.25', pts:12, form:['W','W','W','L','W'] },
-  { team:'MI', played:7, won:5, lost:2, nrr:'+0.62', pts:10, form:['W','L','W','W','W'] },
-  { team:'RCB', played:7, won:4, lost:3, nrr:'+0.22', pts:8, form:['L','W','W','L','W'] },
-  { team:'KKR', played:7, won:3, lost:4, nrr:'-0.05', pts:6, form:['W','L','L','W','L'] },
-  { team:'RR', played:7, won:3, lost:4, nrr:'-0.18', pts:6, form:['L','W','L','L','W'] },
-  { team:'SRH', played:7, won:2, lost:5, nrr:'-0.77', pts:4, form:['L','L','W','L','L'] }
-];
-const rankData = {
-  test: [{ name:'Joe Root', country:'ENG', rating:923 },{ name:'Marnus Labuschagne', country:'AUS', rating:878 },{ name:'Virat Kohli', country:'IND', rating:861 },{ name:'Steve Smith', country:'AUS', rating:839 }],
-  odi: [{ name:'Jasprit Bumrah', country:'IND', rating:849 },{ name:'Shaheen Afridi', country:'PAK', rating:782 },{ name:'Mitchell Starc', country:'AUS', rating:765 },{ name:'Trent Boult', country:'NZ', rating:741 }],
-  t20: [{ name:'Hardik Pandya', country:'IND', rating:302 },{ name:'Shakib Al Hasan', country:'BAN', rating:281 },{ name:'Ben Stokes', country:'ENG', rating:268 },{ name:'Liam Livingstone', country:'ENG', rating:255 }]
-};
-const commentaryData = [
-  { ball:'6', type:'six', text:'SIX! Kohli launches it over mid-wicket! Ball lands in row G!' },
-  { ball:'4', type:'four', text:'FOUR! Gill drives elegantly through cover, perfect timing.' },
-  { ball:'W', type:'wicket', text:'WICKET! Warner caught at deep square-leg. India striking back!' },
-  { ball:'0', type:'dot', text:'Dot ball. Good length, outside off, left alone.' },
-  { ball:'1', type:'dot', text:'Pushed to mid-on. Single taken, easy running.' },
-  { ball:'6', type:'six', text:'MAXIMUM! Short ball, Rohit hooks it over fine leg!' },
-  { ball:'0', type:'dot', text:'Beaten outside off! Starc finding the edge of the bat.' },
-  { ball:'4', type:'four', text:'BOUNDARY! Flicked off pads, races to the fine-leg rope.' }
-];
-const predictions = [
-  "🧠 Kohli-form + home advantage → IND win probability 71%",
-  "🌧 Rain forecast 40% in 2nd session — DLS may apply",
-  "🏏 Pitch analysis: Turn expected after 30 overs, spinners key",
-  "📊 Last 5 H2H: IND 3–2 AUS. Home team advantage edge",
-  "⚡ Bumrah on fire (last 4 games avg 12.3) — bowling first recommended",
-  "🎯 Target 280+ likely match-winning, chasing team wins 62% here"
-];
-
-function renderMatches() {
-  const container = document.getElementById('matchCards');
-  if(container) container.innerHTML = matchData.map(m => `
-    <div class="glass match-card" style="padding:20px;cursor:pointer;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-        <div style="font-size:0.75rem;font-weight:600;color:rgba(232,244,248,0.5);letter-spacing:1px;">${m.name}</div>
-        <span class="live-badge">${m.status}</span>
-      </div>
-      <div class="match-score">${m.score}</div>
-      <div style="margin-top:4px;font-size:0.75rem;color:rgba(232,244,248,0.4);font-family:'JetBrains Mono',monospace;">OVERS ${m.overs}</div>
-      <div style="margin-top:12px;display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.8rem;">
-        <span>${m.team1}: <b>${m.team1score}</b></span>
-        <span>${m.team2}: <b>${m.team2score}</b></span>
-      </div>
-    </div>
-  `).join('');
-}
-
-let commIdx = 0;
-function renderCommentary() {
-  const box = document.getElementById('commentaryBox');
-  if(!box) return;
-  const item = commentaryData[commIdx % commentaryData.length];
-  const ballClass = item.type === 'six' ? 'ball-six' : item.type === 'four' ? 'ball-four' : item.type === 'wicket' ? 'ball-wicket' : 'ball-dot';
-  const time = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  box.insertAdjacentHTML('afterbegin', `
-    <div class="commentary-item" style="animation:fadeInDown 0.4s ease;">
-      <div class="ball-icon ${ballClass}">${item.ball}</div>
-      <div>
-        <div style="font-size:0.8rem;color:rgba(232,244,248,0.4);font-family:'JetBrains Mono',monospace;margin-bottom:2px;">${time}</div>
-        <div style="font-size:0.85rem;">${item.text}</div>
-      </div>
-    </div>
-  `);
-  if (box.children.length > 8) box.lastElementChild.remove();
-  commIdx++;
-}
-
-function renderScorecard() {
-  const batsmen = [
-    { name:'V. Kohli', runs:78, balls:64, fours:8, sixes:2, sr:'121.9' },
-    { name:'R. Sharma', runs:45, balls:38, fours:5, sixes:2, sr:'118.4' },
-    { name:'S. Gill', runs:'32*', balls:24, fours:4, sixes:1, sr:'133.3' }
-  ];
-  const scorecardDiv = document.getElementById('scorecardBox');
-  if(scorecardDiv) scorecardDiv.innerHTML = `
-    <table style="width:100%;font-size:0.78rem;border-collapse:collapse;">
-      <thead><tr style="color:var(--neon);font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;">
-        <th style="text-align:left;padding:6px 4px;">BATSMAN</th><th style="padding:4px;">R</th><th style="padding:4px;">B</th><th style="padding:4px;">4s</th><th style="padding:4px;">6s</th><th style="padding:4px;">SR</th>
-      </tr></thead>
-      <tbody>${batsmen.map(b => `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
-        <td style="padding:8px 4px;font-weight:500;">${b.name}</td>
-        <td style="padding:4px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--neon);">${b.runs}</td>
-        <td style="padding:4px;text-align:center;font-family:'JetBrains Mono',monospace;">${b.balls}</td>
-        <td style="padding:4px;text-align:center;color:var(--neon2);">${b.fours}</td>
-        <td style="padding:4px;text-align:center;color:var(--neon3);">${b.sixes}</td>
-        <td style="padding:4px;text-align:center;opacity:0.6;">${b.sr}</td>
-      </tr>`).join('')}</tbody>
-    </table>`;
-}
-
-function renderNews(filter='all') {
-  const data = filter === 'all' ? newsData : newsData.filter(n => n.cat === filter);
-  const grid = document.getElementById('newsGrid');
-  if(grid) grid.innerHTML = data.map(a => `
-    <div class="glass news-card" style="overflow:hidden;cursor:pointer;" onclick="window.open('#')">
-      <div style="overflow:hidden;"><img class="news-img" src="${a.img}" alt="${a.title}" loading="lazy"></div>
-      <div style="padding:16px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-          <span class="category-badge" style="background:rgba(0,255,179,0.1);color:var(--neon);border:1px solid rgba(0,255,179,0.3);">${a.cat}</span>
-          <span style="font-size:0.7rem;color:rgba(232,244,248,0.3);font-family:'JetBrains Mono',monospace;">${a.time}</span>
-        </div>
-        <h3 style="font-weight:700;font-size:0.95rem;line-height:1.4;margin-bottom:8px;">${a.title}</h3>
-        <p style="font-size:0.8rem;color:rgba(232,244,248,0.5);line-height:1.6;margin-bottom:12px;">${a.desc.slice(0,90)}…</p>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:0.7rem;color:rgba(232,244,248,0.3);">via ${a.src}</span>
-          <span style="color:var(--neon);font-size:0.8rem;font-weight:600;">Read more →</span>
+      
+      <div class="glass p-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="font-bold text-base mb-6 flex items-center gap-2"><i class="fas fa-trophy text-emerald-400"></i> Points Table & Standing League</div>
+        <div class="overflow-x-auto">
+          <table id="pointsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>TEAM</th>
+                <th>PLD</th>
+                <th>WON</th>
+                <th>LOST</th>
+                <th>NRR</th>
+                <th>PTS</th>
+                <th>FORM</th>
+              </tr>
+            </thead>
+            <tbody id="pointsTableBody"></tbody>
+          </table>
         </div>
       </div>
     </div>
-  `).join('');
-}
+  </section>
 
-function renderPointsTable() {
-  const tbody = document.getElementById('pointsTableBody');
-  if(tbody) tbody.innerHTML = pointsData.map((t, i) => {
-    const formDots = t.form.map(r => `<span class="pos-dot" style="background:${r==='W'?'var(--neon)':'rgba(255,68,68,0.6)'};"></span>`).join('');
-    return `<tr>
-      <td style="padding:12px;font-family:'JetBrains Mono',monospace;color:${i<4?'var(--neon)':'rgba(232,244,248,0.3)'};">${i+1}</td>
-      <td style="padding:12px;font-weight:700;">${t.team}</td>
-      <td style="padding:12px;text-align:center;font-family:'JetBrains Mono',monospace;">${t.played}</td>
-      <td style="padding:12px;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--neon);">${t.won}</td>
-      <td style="padding:12px;text-align:center;font-family:'JetBrains Mono',monospace;color:rgba(255,68,68,0.8);">${t.lost}</td>
-      <td style="padding:12px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:${parseFloat(t.nrr)>=0?'var(--neon)':'rgba(255,68,68,0.8)'};">${t.nrr}</td>
-      <td class="pts-cell" style="padding:12px;text-align:center;">${t.pts}</td>
-      <td style="padding:12px;"><div class="pos-bar">${formDots}</div></td>
-    </tr>`;
-  }).join('');
-}
-
-function renderRankings(containerId, data) {
-  const container = document.getElementById(containerId);
-  if(!container) return;
-  const maxR = Math.max(...data.map(d=>d.rating));
-  container.innerHTML = data.map((r, i) => `
-    <div class="rank-row">
-      <div class="rank-num ${i===0?'top':''}">${i+1}</div>
-      <div style="flex:1;">
-        <div style="font-weight:600;font-size:0.85rem;">${r.name}</div>
-        <div style="font-size:0.7rem;color:rgba(232,244,248,0.4);font-family:'JetBrains Mono',monospace;">${r.country} · ${r.rating}</div>
-        <div class="rank-bar"><div class="rank-fill" data-w="${(r.rating/maxR*100).toFixed(0)}"></div></div>
+  <!-- ═══════════ CREATOR INTRO SECTION ═══════════ -->
+  <section id="creatorSection">
+    <div class="container">
+      <div class="glass shimmer p-8 md:p-12 flex flex-col md:flex-row gap-8 md:gap-12 items-center" data-aos="fade-up">
+        <div class="creator-avatar">
+          <img src="https://ui-avatars.com/api/?background=00FFB3&color=02040F&bold=true&size=200&name=Md+Sadique" alt="Md Sadique Amin">
+        </div>
+        <div class="flex-1">
+          <div class="section-label">SPORTS TECH ANALYST</div>
+          <h2 class="font-sans font-extrabold text-2xl md:text-3xl tracking-tight mb-2">Md Sadique Amin</h2>
+          <p class="text-xs font-mono text-emerald-400 mb-4">@mdsadiqueamin721 · Software Engineer · Content Strategist</p>
+          <p class="text-xs md:text-sm text-gray-400 leading-relaxed mb-6">
+            Architect of MSA Sport Informer. MD Sadique designs predictive analytics tools, develops sports-tech UI/UX frameworks, and publishes viral breakdown clips across Youtube and Instagram. Focused on machine learning implementations for predictive ball sports simulation.
+          </p>
+          <div class="flex flex-wrap gap-2.5 mb-6">
+            <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="social-chip"><i class="fab fa-youtube text-red-500"></i> 48K+ Subscribers</a>
+            <a href="#" class="social-chip"><i class="fas fa-code text-emerald-400"></i> ThreeJS &amp; AI Algorithms</a>
+            <a href="#" class="social-chip"><i class="fas fa-project-diagram text-orange-400"></i> Predictive Sports Models</a>
+            <a href="https://instagram.com/mdsadiqueamin" target="_blank" class="social-chip"><i class="fab fa-instagram text-pink-500"></i> Instagram Channel</a>
+          </div>
+          <div class="flex gap-4 flex-wrap">
+            <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="btn btn-primary px-6 py-2.5 text-xs"><i class="fab fa-youtube"></i> Subscribe Channel</a>
+            <a href="#contact" class="btn btn-ghost px-6 py-2.5 text-xs"><i class="fas fa-paper-plane"></i> Request Collab</a>
+          </div>
+        </div>
       </div>
     </div>
-  `).join('');
-  setTimeout(() => { container.querySelectorAll('.rank-fill').forEach(el => { el.style.width = el.getAttribute('data-w') + '%'; }); }, 300);
-}
+  </section>
 
-function setupCharts() {
-  const runsCtx = document.getElementById('runsChart')?.getContext('2d');
-  const wicketsCtx = document.getElementById('wicketsChart')?.getContext('2d');
-  if(runsCtx) new Chart(runsCtx, {
-    type:'bar',
-    data:{ labels:['V. Kohli','R. Sharma','S. Gill','J. Butler','B. Root'], datasets:[{ label:'Runs — 2025 Season', data:[612,518,703,489,541], backgroundColor:['rgba(0,255,179,0.7)','rgba(255,107,0,0.7)','rgba(124,58,237,0.7)','rgba(0,255,179,0.4)','rgba(255,107,0,0.4)'], borderRadius:8 }] },
-    options:{ responsive:true, scales:{ x:{ ticks:{color:'rgba(232,244,248,0.5)'}, grid:{display:false} }, y:{ ticks:{color:'rgba(232,244,248,0.5)'}, grid:{color:'rgba(255,255,255,0.04)'} } }, plugins:{ legend:{ labels:{color:'rgba(232,244,248,0.6)'} } } }
-  });
-  if(wicketsCtx) new Chart(wicketsCtx, {
-    type:'line',
-    data:{ labels:['Jan','Feb','Mar','Apr','May','Jun'], datasets:[
-      { label:'Bumrah', data:[4,6,5,8,7,9], borderColor:'#00FFB3', backgroundColor:'rgba(0,255,179,0.05)', tension:0.4, fill:true, pointBackgroundColor:'#00FFB3', pointRadius:4 },
-      { label:'Starc', data:[5,4,7,6,5,8], borderColor:'#FF6B00', backgroundColor:'rgba(255,107,0,0.05)', tension:0.4, fill:true, pointBackgroundColor:'#FF6B00', pointRadius:4 }
-    ] },
-    options:{ responsive:true, scales:{ x:{ ticks:{color:'rgba(232,244,248,0.5)'}, grid:{display:false} }, y:{ ticks:{color:'rgba(232,244,248,0.5)'}, grid:{color:'rgba(255,255,255,0.04)'} } }, plugins:{ legend:{ labels:{color:'rgba(232,244,248,0.6)'} } } }
-  });
-}
-
-function renderGallery() {
-  const imgs = [19,15,62,43,77,111];
-  const galleryDiv = document.getElementById('galleryGrid');
-  if(galleryDiv) galleryDiv.innerHTML = imgs.map((id, i) => `
-    <div class="gallery-item" onclick="document.getElementById('imgModal').classList.add('show');document.getElementById('modalImg').src='https://picsum.photos/id/${id}/800/600'">
-      <img src="https://picsum.photos/id/${id}/500/${i%2===0?400:250}" alt="Cricket Moment ${i+1}" loading="lazy">
-      <div class="gallery-overlay"><span style="font-size:0.8rem;font-weight:600;">📸 Cricket Moment #${i+1}</span></div>
+  <!-- ═══════════ VIDEO ORIGINALS ═══════════ -->
+  <section id="videoOriginals" class="bg-gradient-to-b from-[#02040F] to-[#060B1A]">
+    <div class="container">
+      <div class="text-center mb-10" data-aos="fade-up">
+        <div class="section-label">Digital Content</div>
+        <h2 class="section-title">🎬 MSA Video Originals</h2>
+        <p class="text-xs md:text-sm text-gray-500 mt-2">Latest sports analyses, matching predictions, and tech logs</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6 mb-10" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass video-card p-4">
+          <iframe src="https://www.youtube.com/embed/hhRb7cPJN6E?si=v1" title="El Clasico Analysis" allowfullscreen></iframe>
+          <p class="mt-4 font-semibold text-sm">🎙️ "UCL El Clasico Breakdown &amp; Form Analysis" — MSA Show</p>
+          <p class="text-[10px] text-gray-500 mt-1">147K views · 3 months ago</p>
+        </div>
+        <div class="glass video-card p-4">
+          <iframe src="https://www.youtube.com/embed/4oYrtMGLCr4?si=v2" title="AI Sports Analysis" allowfullscreen></iframe>
+          <p class="mt-4 font-semibold text-sm">📊 Neural Predictors in Digital Ball Sports: MSA Explains</p>
+          <p class="text-[10px] text-gray-500 mt-1">89K views · 5 months ago</p>
+        </div>
+      </div>
+      
+      <!-- Video highlights Swiper carousel -->
+      <div class="swiper mySwiper" data-aos="fade-up" data-aos-delay="150">
+        <div class="swiper-wrapper" id="videoSwiperWrapper"></div>
+        <div class="swiper-pagination mt-6"></div>
+      </div>
     </div>
-  `).join('');
-}
+  </section>
 
-const pollTeams = [{ name:'India', pct:64 },{ name:'Australia', pct:52 },{ name:'England', pct:38 },{ name:'South Africa', pct:41 }];
-function renderPoll() {
-  const pollDiv = document.getElementById('pollOptions');
-  if(pollDiv) pollDiv.innerHTML = pollTeams.map((t, i) => `<button class="poll-btn" onclick="votePoll(${i})">${t.name}</button>`).join('');
-}
-window.votePoll = function(idx) {
-  const resDiv = document.getElementById('pollResult');
-  if(resDiv) resDiv.innerHTML = `<div style="font-size:0.8rem;color:var(--neon);margin-bottom:8px;">✅ Vote recorded — MSA Pulse 2027</div>${pollTeams.map(pt => `<div style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:4px;"><span>${pt.name}</span><span style="font-family:'JetBrains Mono',monospace;color:var(--neon);">${pt.pct}%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" data-w="${pt.pct}"></div></div></div>`).join('')}`;
-  setTimeout(() => { document.querySelectorAll('.poll-bar-fill').forEach(el => el.style.width = el.getAttribute('data-w') + '%'); }, 50);
-};
+  <!-- ═══════════ IMAGE MOMENTS GALLERY ═══════════ -->
+  <section id="gallery">
+    <div class="container">
+      <div class="text-center mb-10" data-aos="fade-up">
+        <div class="section-label">IN ACTION</div>
+        <h2 class="section-title">📸 Sports Action Reels</h2>
+      </div>
+      <div id="galleryGrid" class="columns-2 md:columns-3 gap-5"></div>
+    </div>
+  </section>
 
-function updateAIPrediction() {
-  const el = document.getElementById('aiPrediction');
-  if(el) {
-    el.innerHTML = `<div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>`;
-    setTimeout(() => {
-      el.innerHTML = `<div style="font-size:0.8rem;color:var(--neon);margin-bottom:8px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;">MSA CRICKET AI v3.1</div><div style="font-size:0.875rem;line-height:1.6;">${predictions[Math.floor(Math.random()*predictions.length)]}</div>`;
-    }, 1200);
-  }
-}
-document.getElementById('refreshPrediction')?.addEventListener('click', updateAIPrediction);
+  <!-- ═══════════ INTERACTIVE FAN ZONE ═══════════ -->
+  <section id="fanZone" class="bg-[#060B1A]/90">
+    <div class="container">
+      <div class="text-center mb-10" data-aos="fade-up">
+        <div class="section-label">FAN ENGAGEMENT</div>
+        <h2 class="section-title">🔥 MSA Interactive Fan Zone</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
+        <!-- Fan Live Chat -->
+        <div class="glass p-5">
+          <div class="font-bold text-sm mb-4 flex items-center gap-2"><i class="fas fa-comments text-emerald-400"></i> Fan Live Chat</div>
+          <div id="fanComments" class="h-[200px] overflow-y-auto flex flex-col gap-2.5 mb-4"></div>
+          <input id="commentInput" placeholder="Cheer your team..." class="form-input mb-3">
+          <button id="postComment" class="btn btn-primary w-full justify-center py-2.5 text-xs">Send Comment ⚡</button>
+        </div>
+        
+        <!-- Live Instant Poll -->
+        <div class="glass p-5">
+          <div class="font-bold text-sm mb-4 flex items-center gap-2"><i class="fas fa-poll text-emerald-400"></i> Tournament Winner Poll</div>
+          <div id="pollOptions" class="flex flex-col gap-2.5"></div>
+          <div id="pollResult"></div>
+        </div>
+        
+        <!-- Neural Match Predictor -->
+        <div class="glass p-5">
+          <div class="font-bold text-sm mb-4 flex items-center gap-2"><i class="fas fa-robot text-emerald-400"></i> AI Match Predictor</div>
+          <div class="ai-card" id="aiPrediction">
+            <div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+          </div>
+          <button id="refreshPrediction" class="btn btn-ghost w-full justify-center py-2 text-xs mt-4">🔄 Refresh Prediction</button>
+          
+          <div class="mt-6 text-center border-t border-white/5 pt-4">
+            <div class="text-[10px] text-gray-500 tracking-wider uppercase mb-1">VOICE COMMAND STATUS</div>
+            <span id="voiceStatus" class="text-xs text-emerald-400 font-mono">click mic → speak sport</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-const sampleChats = ['🔥 CSK all the way!','Kohli GOAT! 🐐','Bumrah unstoppable bhai!','IPL 2025 CSK vs MI final confirmed?'];
-function initChat() {
-  const chatBox = document.getElementById('fanComments');
-  if(chatBox) sampleChats.forEach(m => { chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-bot" style="font-size:0.8rem;">${m}</div>`); });
-  document.getElementById('postComment')?.addEventListener('click', () => {
-    const val = document.getElementById('commentInput')?.value.trim();
-    if(val && chatBox) {
-      chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user" style="font-size:0.8rem;">${val}</div>`);
-      chatBox.scrollTop = chatBox.scrollHeight;
-      if(document.getElementById('commentInput')) document.getElementById('commentInput').value = '';
-    }
-  });
-}
+  <!-- ═══════════ CONTACT SECTION ═══════════ -->
+  <section id="contact">
+    <div class="container">
+      <div class="text-center mb-10" data-aos="fade-up">
+        <div class="section-label">GET IN TOUCH</div>
+        <h2 class="section-title">Message the Creator</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass p-8">
+          <div class="flex flex-col gap-4">
+            <input type="text" placeholder="Your Name" class="form-input">
+            <input type="email" placeholder="Email Address" class="form-input">
+            <input type="text" placeholder="Subject" class="form-input">
+            <textarea placeholder="Write message details..." class="form-input" rows="4"></textarea>
+            <button id="sendMsg" class="btn btn-primary justify-center"><i class="fas fa-paper-plane"></i> Send Message</button>
+          </div>
+        </div>
+        
+        <div class="glass p-8 flex flex-col justify-between gap-6">
+          <iframe class="rounded-2xl w-full h-[200px] border-none" loading="lazy" src="https://maps.google.com/maps?q=Ahmedabad,Gujarat&z=12&output=embed"></iframe>
+          
+          <div class="flex flex-col gap-3 text-xs text-gray-400">
+            <div class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-400 w-4"></i> mdsadiqueamin721786@gmail.com</div>
+            <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 w-4"></i> youtube.com/@mdsadiqueamin721</div>
+            <div class="flex items-center gap-3"><i class="fas fa-map-marker-alt text-emerald-400 w-4"></i> Ahmedabad, Gujarat, India</div>
+          </div>
+          
+          <div class="flex gap-2.5 flex-wrap">
+            <a href="https://youtube.com/@mdsadiqueamin721" target="_blank" class="btn btn-primary px-5 py-2.5 text-xs"><i class="fab fa-youtube"></i></a>
+            <a href="https://instagram.com/mdsadiqueamin" target="_blank" class="btn btn-ghost px-5 py-2.5 text-xs"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/in/mdsadiqueamin" target="_blank" class="btn btn-ghost px-5 py-2.5 text-xs"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-function initChatbot() {
-  const chatBtn = document.getElementById('chatbotBtn');
-  const chatWin = document.getElementById('chatWindow');
-  const sendBtn = document.getElementById('sendChat');
-  const input = document.getElementById('chatInput');
-  const msgs = document.getElementById('chatMessages');
-  if(chatBtn && chatWin) chatBtn.onclick = () => chatWin.classList.toggle('show');
-  if(sendBtn && input && msgs) sendBtn.onclick = () => {
-    const msg = input.value.trim();
-    if(!msg) return;
-    msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user">${msg}</div>`);
-    input.value = '';
-    setTimeout(() => {
-      const replies = ["🏏 Check live scores in the Live Hub section!","📊 ICC Rankings updated daily on MSA News.","🔥 Watch MSA Originals for exclusive cricket analysis!","🤖 AI Predictor says: India 71% win probability today!"];
-      msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-bot"><b style="color:var(--neon);">MSA Bot:</b> ${replies[Math.floor(Math.random()*replies.length)]}</div>`);
-      msgs.scrollTop = msgs.scrollHeight;
-    }, 600);
-  };
-  if(input) input.addEventListener('keydown', e => { if(e.key==='Enter') sendBtn?.click(); });
-}
+  <!-- FOOTER -->
+  <footer>
+    <div class="container text-center">
+      <div class="font-sans font-extrabold text-xl tracking-tight mb-3">MSA<span class="text-emerald-400"> SPORT INFORMER</span></div>
+      <p class="text-2xs text-gray-500 mb-6">Engineered by Md Sadique Amin &bull; Sports &bull; Code &bull; Creativity &bull; &copy; 2026</p>
+      <div class="flex justify-center gap-6 text-xs">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">About Us</a>
+        <a href="#" class="footer-link">Support Chat</a>
+      </div>
+    </div>
+  </footer>
 
-function initVoiceSearch() {
-  const vBtn = document.getElementById('voiceBtn');
-  const statusSpan = document.getElementById('voiceStatus');
-  if ('webkitSpeechRecognition' in window && vBtn) {
-    const rec = new webkitSpeechRecognition();
-    rec.lang = 'en-IN'; rec.continuous = false;
-    vBtn.onclick = () => { rec.start(); if(statusSpan) statusSpan.textContent = '🎤 Listening...'; };
-    rec.onresult = e => { const t = e.results[0][0].transcript; if(statusSpan) statusSpan.textContent = `"${t}"`; renderNews(t.toLowerCase().includes('ipl')?'IPL':t.toLowerCase().includes('tech')?'Tech':'all'); };
-    rec.onend = () => setTimeout(() => { if(statusSpan) statusSpan.textContent = 'click mic → speak topic'; }, 2500);
-  } else if(vBtn) vBtn.disabled = true;
-}
+  <!-- FLOATING ELEMENTS -->
+  <div id="scrollTop"><i class="fas fa-arrow-up text-gray-900 text-sm"></i></div>
+  
+  <!-- AI CHAT ASSISTANT -->
+  <div id="chatbotBtn" title="MSA Sport Bot">
+    <i class="fas fa-robot text-gray-900 text-xl"></i>
+  </div>
+  
+  <div id="chatWindow" class="glass">
+    <div class="flex items-center justify-between px-4 py-3.5 border-b border-emerald-400/10">
+      <div class="font-bold text-xs flex items-center gap-2"><span class="live-dot"></span> MSA Sport Bot</div>
+      <button onclick="document.getElementById('chatWindow').classList.remove('show')" class="bg-transparent border-none text-gray-500 cursor-pointer text-sm hover:text-white">&times;</button>
+    </div>
+    <div id="chatMessages"></div>
+    <div class="p-3 border-t border-emerald-400/10 flex gap-2">
+      <input id="chatInput" placeholder="Ask about sports standings..." class="form-input py-2 px-3 text-xs flex-1">
+      <button id="sendChat" class="btn btn-primary py-2 px-3 rounded-lg text-xs flex-shrink-0"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 
-function setupSwiper() {
-  const swiperWrapper = document.getElementById('videoSwiperWrapper');
-  if(swiperWrapper) {
-    swiperWrapper.innerHTML = [
-      { id:'nCwgxmwZn58', title:'🏏 Kohli 100th Century Breakdown' },
-      { id:'3bJrcCswA0U', title:'📊 IPL 2025 Preview — MSA Analysis' },
-      { id:'Jf1t6GzEh_c', title:'🎯 T20 World Cup Predictions' }
-    ].map(v => `<div class="swiper-slide glass" style="padding:12px;border-radius:16px;"><iframe style="width:100%;aspect-ratio:16/9;border-radius:10px;border:none;" src="https://www.youtube.com/embed/${v.id}" allowfullscreen></iframe><p style="margin-top:10px;font-size:0.85rem;font-weight:600;text-align:center;">${v.title}</p></div>`).join('');
-    new Swiper('.mySwiper', { slidesPerView:1, spaceBetween:20, pagination:{el:'.swiper-pagination',clickable:true}, breakpoints:{640:{slidesPerView:2},1024:{slidesPerView:3}} });
-  }
-}
+  <!-- External Script Dependecies -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-document.getElementById('sendMsg')?.addEventListener('click', function() {
-  this.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-  this.style.background = 'rgba(0,255,179,0.2)';
-  setTimeout(() => { this.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message'; this.style.background = ''; }, 3000);
-});
+  <!-- Modular Scripts -->
+  <script type="module" src="src/app.js"></script>
 
-document.querySelectorAll('.news-filter').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.news-filter').forEach(b => { b.classList.remove('active'); b.style.background='transparent'; b.style.borderColor='var(--border)'; b.style.color='var(--text)'; });
-    this.classList.add('active'); this.style.background='rgba(0,255,179,0.1)'; this.style.borderColor='var(--neon)'; this.style.color='var(--neon)';
-    renderNews(this.dataset.cat);
-  });
-});
-
-window.addEventListener('load', () => {
-  renderMatches(); renderNews(); renderPointsTable();
-  renderRankings('testRankings', rankData.test);
-  renderRankings('odiRankings', rankData.odi);
-  renderRankings('t20Rankings', rankData.t20);
-  renderScorecard(); renderGallery(); setupCharts(); setupSwiper();
-  updateAIPrediction(); renderPoll(); initChat(); initChatbot(); initVoiceSearch();
-  setInterval(renderCommentary, 5000);
-  setInterval(renderMatches, 40000);
-  renderCommentary();
-});
-</script>
 </body>
 </html>
