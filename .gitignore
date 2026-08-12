@@ -1,0 +1,6 @@
+.codebuddy/
+node_modules/
+.DS_Store
+*.log
+codebase_analysis.db
+vector_store.db

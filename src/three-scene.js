@@ -246,6 +246,7 @@ export function switchSport(sport) {
       metalness = 0.6; // Shiny cricket ball
     }
     
+    if (ballMaterial.map) ballMaterial.map.dispose();
     ballMaterial.map = texture;
     ballMaterial.roughness = roughness;
     ballMaterial.metalness = metalness;

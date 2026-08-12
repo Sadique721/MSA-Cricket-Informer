@@ -143,6 +143,12 @@ export const pointsData = {
     { team: 'OKC Thunder', played: 82, won: 57, lost: 25, nrr: '+7.4', pts: 57, form: ['W', 'L', 'W', 'W', 'W'] },
     { team: 'Denver Nuggets', played: 82, won: 57, lost: 25, nrr: '+5.3', pts: 57, form: ['L', 'W', 'L', 'W', 'W'] },
     { team: 'Minnesota Timberwolves', played: 82, won: 56, lost: 26, nrr: '+6.5', pts: 56, form: ['W', 'L', 'W', 'L', 'W'] }
+  ],
+  tennis: [
+    { team: 'Jannik Sinner',    played: 62, won: 55, lost: 7,  nrr: '+48', pts: 9525, form: ['W','W','W','L','W'] },
+    { team: 'Carlos Alcaraz',   played: 58, won: 49, lost: 9,  nrr: '+40', pts: 8580, form: ['W','L','W','W','W'] },
+    { team: 'Novak Djokovic',   played: 45, won: 36, lost: 9,  nrr: '+27', pts: 7160, form: ['L','W','W','L','W'] },
+    { team: 'Alexander Zverev', played: 60, won: 44, lost: 16, nrr: '+18', pts: 6885, form: ['W','W','L','W','L'] }
   ]
 };
 

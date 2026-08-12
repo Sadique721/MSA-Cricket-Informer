@@ -1103,3 +1103,141 @@ body.light .chat-user {
 body.light #mobileMenu {
   background: rgba(240, 244, 255, 0.96);
 }
+
+/* ============ SKELETON LOADERS ============ */
+.skeleton-card {
+  height: 160px;
+  width: 100%;
+}
+.skeleton-news {
+  height: 380px;
+  width: 100%;
+}
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 37%, rgba(255, 255, 255, 0.03) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShine 1.4s ease infinite;
+  border-radius: 24px;
+}
+@keyframes skeletonShine {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* ============ NOTCH AND SAFE AREA DESIGN ============ */
+#navbar {
+  padding-top: env(safe-area-inset-top);
+}
+#scrollTop, #chatbotBtn, #chatWindow {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+/* ============ COARSE DEVICE OVERRIDES ============ */
+@media (pointer: coarse) {
+  #cursor, #cursor-ring {
+    display: none !important;
+  }
+}
+
+/* ============ CUSTOM TOAST NOTIFICATIONS ============ */
+.toast {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 12px 20px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  color: var(--text);
+  opacity: 0;
+  transform: translateX(45px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-family: 'Space Grotesk', sans-serif;
+  pointer-events: auto;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.toast-success {
+  border-color: var(--neon);
+  box-shadow: 0 0 20px rgba(0, 255, 179, 0.1);
+}
+.toast-error {
+  border-color: #EF4444;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+}
+.toast-info {
+  border-color: var(--neon2);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.1);
+}
+
+/* ============ RESPONSIVE MEDIA QUERIES ============ */
+@media (max-width: 768px) {
+  .viewer-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: calc(100vw - 32px);
+    bottom: 24px !important;
+    padding: 8px 12px;
+    gap: 8px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .viewer-btn {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  #chatWindow {
+    width: calc(100vw - 24px) !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 84px !important;
+  }
+
+  #hero {
+    padding-top: 100px;
+    min-height: 90vh;
+  }
+  .hero-title {
+    font-size: 3.2rem;
+    line-height: 1;
+  }
+  
+  #heroStats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .viewer-controls {
+    gap: 4px;
+    padding: 6px 8px;
+  }
+  .viewer-btn {
+    padding: 5px 8px;
+    font-size: 0.65rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Tablet viewports */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #chatWindow {
+    width: 300px;
+  }
+}
+
+/* Scrollable tables safety */
+#scorecardBox, .overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+#scorecardBox table {
+  min-width: 480px;
+}

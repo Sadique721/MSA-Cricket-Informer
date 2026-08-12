@@ -5,9 +5,41 @@ import {
   rankData, 
   pointsData, 
   commentaryData, 
-  predictions 
+  predictions,
+  newsData
 } from './api.js';
 import { switchSport } from './three-scene.js';
+
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+export function showToast(msg, type = 'info') {
+  let wrap = document.getElementById('toastWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'toastWrap';
+    wrap.style.cssText = 'position:fixed;top:90px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:10px;';
+    document.body.appendChild(wrap);
+  }
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  if (msg.includes('BREAKING')) {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      document.getElementById('newsSection')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+  wrap.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => { 
+    el.classList.remove('show'); 
+    setTimeout(() => el.remove(), 300); 
+  }, msg.includes('BREAKING') ? 5000 : 3200);
+}
 
 let activeSport = 'football';
 let chartsInstance = {};
@@ -25,6 +57,10 @@ function getCommentaryClass(type) {
 export async function renderMatches(sport = 'all') {
   const container = document.getElementById('matchCards');
   if (!container) return;
+  
+  container.innerHTML = Array(4).fill(0).map(() => `
+    <div class="skeleton skeleton-card"></div>
+  `).join('');
   
   const matches = await fetchLiveScores(sport);
   
@@ -153,6 +189,10 @@ export async function renderNews(category = 'all') {
   const grid = document.getElementById('newsGrid');
   if (!grid) return;
   
+  grid.innerHTML = Array(3).fill(0).map(() => `
+    <div class="skeleton skeleton-news"></div>
+  `).join('');
+  
   const news = await fetchSportsNews(category);
   
   grid.innerHTML = news.map(a => `
@@ -190,6 +230,8 @@ export function renderPointsTable(sport = 'football') {
     headerRow.innerHTML = `<th>#</th><th>TEAM</th><th>PLD</th><th>WON</th><th>LOST</th><th>NRR</th><th>PTS</th><th>FORM</th>`;
   } else if (sport === 'basketball') {
     headerRow.innerHTML = `<th>#</th><th>FRANCHISE</th><th>GP</th><th>W</th><th>L</th><th>DIFF</th><th>PTS</th><th>FORM</th>`;
+  } else if (sport === 'tennis') {
+    headerRow.innerHTML = `<th>#</th><th>PLAYER</th><th>MATCHES</th><th>WON</th><th>LOST</th><th>PTS DIFF</th><th>RANK PTS</th><th>FORM</th>`;
   }
   
   const data = pointsData[sport] || pointsData['football'];
@@ -417,6 +459,8 @@ window.votePoll = function(idx, sport) {
   const resDiv = document.getElementById('pollResult');
   if (!resDiv) return;
   
+  showToast('✅ Vote recorded successfully!', 'success');
+  
   const options = {
     football: [
       { name: 'Real Madrid', pct: 46 },
@@ -563,9 +607,10 @@ export function initFanChat(sport = 'football') {
     newBtn.addEventListener('click', () => {
       const val = input.value.trim();
       if (val) {
-        chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user text-[11px]">${val}</div>`);
+        chatBox.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user text-[11px]">${escapeHTML(val)}</div>`);
         chatBox.scrollTop = chatBox.scrollHeight;
         input.value = '';
+        showToast('💬 Comment posted to Fan Zone!', 'success');
       }
     });
   }
@@ -588,7 +633,7 @@ export function initChatbot() {
       const msg = input.value.trim();
       if (!msg) return;
       
-      msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user">${msg}</div>`);
+      msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg chat-user">${escapeHTML(msg)}</div>`);
       input.value = '';
       msgs.scrollTop = msgs.scrollHeight;
       
@@ -694,3 +739,46 @@ window.selectActiveMatch = function(matchId, sport) {
   if (box) box.innerHTML = '';
   renderCommentary(sport);
 };
+
+export function initContactForm() {
+  const btn = document.getElementById('sendMsg');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const inputs = document.querySelectorAll('#contact .form-input');
+    const [name, email, subject, message] = inputs;
+    if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+      showToast('⚠️ Please fill Name, Email and Message.', 'error');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      showToast('⚠️ Please enter a valid email address.', 'error');
+      return;
+    }
+    btn.disabled = true;
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    setTimeout(() => {
+      showToast('✅ Message sent! MSA team will respond soon.', 'success');
+      inputs.forEach(i => i.value = '');
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+    }, 1200);
+  });
+}
+
+export function initPredictionRefresher() {
+  const btn = document.getElementById('refreshPrediction');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      updateAIPrediction();
+      showToast('🧠 Analyzing live metrics for updated neural prediction...', 'info');
+    });
+  }
+}
+
+export function startBreakingNewsPopups() {
+  setInterval(() => {
+    const item = newsData[Math.floor(Math.random() * newsData.length)];
+    showToast(`⚡ BREAKING: ${item.title}`, 'info');
+  }, 45000);
+}

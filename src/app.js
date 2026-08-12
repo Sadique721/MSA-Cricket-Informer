@@ -11,10 +11,12 @@ import {
   initFanChat, 
   initChatbot, 
   initVoiceSearch,
-  renderCommentary
+  renderCommentary,
+  initContactForm,
+  initPredictionRefresher,
+  startBreakingNewsPopups
 } from './ui.js';
 
-let activeSport = 'football';
 
 // 1. Initialise Preloader countdown timer
 function initPreloader() {
@@ -250,9 +252,7 @@ window.addEventListener('load', () => {
   // Attach select sport actions to buttons
   document.querySelectorAll('.sport-selector').forEach(btn => {
     btn.addEventListener('click', function() {
-      const sport = this.dataset.sport;
-      activeSport = sport;
-      window.changeActiveSport(sport);
+      window.changeActiveSport(this.dataset.sport);
     });
   });
 
@@ -265,9 +265,13 @@ window.addEventListener('load', () => {
   initGallery();
   
   // Set default state render
-  window.changeActiveSport(activeSport);
+  window.changeActiveSport('football');
   initChatbot();
   initVoiceSearch();
+  initContactForm();
+  initPredictionRefresher();
+  startLiveClock();
+  startBreakingNewsPopups();
   
   // Scroll reveal framework
   if (typeof AOS !== 'undefined') {
@@ -276,10 +280,22 @@ window.addEventListener('load', () => {
   
   // Auto scoreboards and live commentary stream tickers
   setInterval(() => {
-    renderCommentary(activeSport);
+    const active = document.querySelector('.sport-selector.active')?.dataset.sport || 'football';
+    renderCommentary(active);
   }, 6000);
   
   setInterval(() => {
-    renderMatches(activeSport);
+    const active = document.querySelector('.sport-selector.active')?.dataset.sport || 'football';
+    renderMatches(active);
   }, 30000);
 });
+
+function startLiveClock() {
+  const el = document.getElementById('liveClock');
+  if (!el) return;
+  const update = () => {
+    el.textContent = new Date().toLocaleTimeString('en-US', { hour12: true });
+  };
+  update();
+  setInterval(update, 1000);
+}
