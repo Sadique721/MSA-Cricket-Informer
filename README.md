@@ -4,6 +4,12 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&amp;weight=600&amp;size=24&amp;duration=3000&amp;pause=500&amp;color=22D3EE&amp;center=true&amp;vCenter=true&amp;width=700&amp;lines=Real-time%20Sports%20Analytics;Sports%20News%20Aggregator;Dynamic%20Dashboard" alt="Typing SVG">
 </p>
 
+<!-- ========== NEW: HIGH QUALITY PROJECT BANNER ========== -->
+<p align="center">
+  <img src="project_banner.svg" width="100%">
+</p>
+
+
 <!-- ========== NEW: AUTHOR & ARCHITECT SECTION ========== -->
 ## 👨‍💻 Author & Architect
 
