@@ -32,6 +32,17 @@
 </tr>
 </table>
 
+<!-- ========== NEW: SYSTEM DIAGRAM SECTION ========== -->
+## 📊 System Architecture & Workflow
+
+```mermaid
+flowchart LR
+    A[Sports News API Providers] --> B[MSA Sport Informer Engine]
+    B --> C[Data Cache Manager]
+    C --> D[Sport Analytics Dashboard]
+    D --> E[Subscribers & Web Clients]
+```
+
 ---
 
 # 🏆 MSA SPORT INFORMER — Live Scores, News & Predictions
